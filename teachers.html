@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - STEM Learn Odisha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: white;
+            color: #2a69ac;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #38b2ac;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.6rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(14, 42, 71, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Dashboard Content */
+        .dashboard {
+            padding: 40px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3182ce;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            color: #38b2ac;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-tabs a {
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs a.active {
+            color: #3182ce;
+        }
+
+        .nav-tabs a.active:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #3182ce;
+            border-radius: 3px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #3182ce;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #1a365d;
+        }
+
+        .activity-desc {
+            color: #64748b;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #edf2f7;
+            transform: translateY(-3px);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+            color: #3182ce;
+            margin-bottom: 10px;
+        }
+
+        .action-label {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .assignment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .assignment-item {
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #d69e2e;
+        }
+
+        .assignment-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #1a365d;
+        }
+
+        .assignment-due {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .help-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .help-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #64748b;
+            transition: all 0.3s ease;
+        }
+
+        .help-link:hover {
+            background: #edf2f7;
+            color: #3182ce;
+        }
+
+        .help-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about {
+            padding-right: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            font-size: 1.8rem;
+            background: #38b2ac;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            color: #38b2ac;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d3748;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: #38b2ac;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .language-switcher {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+                justify-content: center;
+                background: transparent;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Odia font support */
+        .odia-text {
+            font-family: 'Kalinga', 'Nirmala UI', 'Segoe UI', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="logo-text">STEM <span>Learn</span> Odisha</div>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="index.html" data-translate="nav-home">Home</a></li>
+                        <li><a href="science.html" data-translate="nav-science">Science</a></li>
+                        <li><a href="math.html" data-translate="nav-math">Math</a></li>
+                        <li><a href="teachers.html" class="active" data-translate="nav-teachers">Teachers</a></li>
+                        <li><a href="about.html" data-translate="nav-about">About</a></li>
+                        <li><a href="contact.html" data-translate="nav-contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 data-translate="dashboard-title">Teacher Dashboard</h1>
+            <p data-translate="dashboard-desc">Monitor student progress and manage learning activities</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content -->
+    <section class="dashboard">
+        <div class="container">
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-translate="total-students">127</div>
+                    <div class="stat-label" data-translate="total-students-label">Total Students</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span data-translate="student-growth">+12 from last week</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number" data-translate="active-today">89</div>
+                    <div class="stat-label" data-translate="active-today-label">Active Today</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span data-translate="active-growth">+5 from last week</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-number">76%</div>
+                    <div class="stat-label" data-translate="avg-progress">Avg. Progress</div>
+                    <div class="stat-change">
+                        <i class="fas fa-arrow-up"></i>
+                        <span data-translate="progress-growth">+3% from last week</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="dashboard-content">
+                <div class="main-content">
+                    <!-- Recent Activity -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title" data-translate="overview-title">Overview</h2>
+                            <ul class="nav-tabs">
+                                <li><a href="#" class="active" data-translate="tab-students">Students</a></li>
+                                <li><a href="#" data-translate="tab-assignments">Assignments</a></li>
+                                <li><a href="#" data-translate="tab-analytics">Analytics</a></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-avatar">RN</div>
+                                <div class="activity-content">
+                                    <h3 class="activity-title" data-translate="activity1-title">Raw Nutrient</h3>
+                                    <p class="activity-desc" data-translate="activity1-desc">Submitted assignment on Living Organisms</p>
+                                    <p class="activity-desc" data-translate="activity1-score">Score: 8/10</p>
+                                </div>
+                            </div>
+                            
+                            <div class="activity-item">
+                                <div class="activity-avatar">MD</div>
+                                <div class="activity-content">
+                                    <h3 class="activity-title" data-translate="activity2-title">Meera Das</h3>
+                                    <p class="activity-desc" data-translate="activity2-desc">Watched video on Measurement</p>
+                                    <p class="activity-time" data-translate="activity2-time">3 hours ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar">
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <h2 class="card-title" data-translate="quick-actions-title">Quick Actions</h2>
+                        
+                        <div class="quick-actions">
+                            <div class="action-btn">
+                                <div class="action-icon">
+                                    <i class="fas fa-tasks"></i>
+                                </div>
+                                <div class="action-label" data-translate="action-create">Create Assignment</div>
+                            </div>
+                            
+                            <div class="action-btn">
+                                <div class="action-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="action-label" data-translate="action-reports">View Reports</div>
+                            </div>
+                            
+                            <div class="action-btn">
+                                <div class="action-icon">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <div class="action-label" data-translate="action-announce">Send Announcement</div>
+                            </div>
+                            
+                            <div class="action-btn">
+                                <div class="action-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="action-label" data-translate="action-classes">Manage Classes</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Assignments -->
+                    <div class="card">
+                        <h2 class="card-title" data-translate="upcoming-title">Upcoming Assignments</h2>
+                        
+                        <div class="assignment-list">
+                            <div class="assignment-item">
+                                <h3 class="assignment-title" data-translate="assignment1-title">Main Quiz: Fractions</h3>
+                                <p class="assignment-due" data-translate="assignment1-due">Due Dec 18</p>
+                            </div>
+                            
+                            <div class="assignment-item">
+                                <h3 class="assignment-title" data-translate="assignment2-title">Water Cycle Assignment</h3>
+                                <p class="assignment-due" data-translate="assignment2-due">Due Dec 22</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Help Section -->
+                    <div class="card">
+                        <h2 class="card-title" data-translate="help-title">Need Help?</h2>
+                        
+                        <div class="help-links">
+                            <a href="#" class="help-link">
+                                <i class="fas fa-book help-icon"></i>
+                                <span data-translate="help-resources">Teaching Resources</span>
+                            </a>
+                            
+                            <a href="#" class="help-link">
+                                <i class="fas fa-headset help-icon"></i>
+                                <span data-translate="help-support">Contact Support</span>
+                            </a>
+                            
+                            <a href="#" class="help-link">
+                                <i class="fas fa-book-open help-icon"></i>
+                                <span data-translate="help-guide">User Guide</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="footer-logo-text">STEM Learn Odisha</div>
+                    </div>
+                    <p data-translate="footer-desc">Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="quick-links">Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-home"></i> <span data-translate="nav-home">Home</span></a></li>
+                        <li><a href="science.html"><i class="fas fa-flask"></i> <span data-translate="nav-science">Science</span></a></li>
+                        <li><a href="math.html"><i class="fas fa-calculator"></i> <span data-translate="nav-math">Math</span></a></li>
+                        <li><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i> <span data-translate="nav-teachers">Teachers</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="contact-us">Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-translate="footer-address">Department of Education, Bhubaneswar</span></a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 674 123 4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@stemlearnodisha.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p data-translate="copyright">© 2023 STEM Learn Odisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Language switching functionality
+        let currentLanguage = 'en';
+
+        const translations = {
+            en: {
+                'nav-home': 'Home',
+                'nav-science': 'Science',
+                'nav-math': 'Math',
+                'nav-teachers': 'Teachers',
+                'nav-about': 'About',
+                'nav-contact': 'Contact',
+                'dashboard-title': 'Teacher Dashboard',
+                'dashboard-desc': 'Monitor student progress and manage learning activities',
+                'total-students-label': 'Total Students',
+                'student-growth': '+12 from last week',
+                'active-today-label': 'Active Today',
+                'active-growth': '+5 from last week',
+                'avg-progress': 'Avg. Progress',
+                'progress-growth': '+3% from last week',
+                'overview-title': 'Overview',
+                'tab-students': 'Students',
+                'tab-assignments': 'Assignments',
+                'tab-analytics': 'Analytics',
+                'activity1-title': 'Raw Nutrient',
+                'activity1-desc': 'Submitted assignment on Living Organisms',
+                'activity1-score': 'Score: 8/10',
+                'activity2-title': 'Meera Das',
+                'activity2-desc': 'Watched video on Measurement',
+                'activity2-time': '3 hours ago',
+                'quick-actions-title': 'Quick Actions',
+                'action-create': 'Create Assignment',
+                'action-reports': 'View Reports',
+                'action-announce': 'Send Announcement',
+                'action-classes': 'Manage Classes',
+                'upcoming-title': 'Upcoming Assignments',
+                'assignment1-title': 'Main Quiz: Fractions',
+                'assignment1-due': 'Due Dec 18',
+                'assignment2-title': 'Water Cycle Assignment',
+                'assignment2-due': 'Due Dec 22',
+                'help-title': 'Need Help?',
+                'help-resources': 'Teaching Resources',
+                'help-support': 'Contact Support',
+                'help-guide': 'User Guide',
+                'footer-desc': 'Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.',
+                'quick-links': 'Quick Links',
+                'contact-us': 'Contact Us',
+                'footer-address': 'Department of Education, Bhubaneswar',
+                'copyright': '© 2023 STEM Learn Odisha. All rights reserved.'
+            },
+            or: {
+                'nav-home': 'ମୁଖ୍ୟ ପୃଷ୍ଠା',
+                'nav-science': 'ବିଜ୍ଞାନ',
+                'nav-math': 'ଗଣିତ',
+                'nav-teachers': 'ଶିକ୍ଷକମାନେ',
+                'nav-about': 'ଆମ ବିଷୟରେ',
+                'nav-contact': 'ଯୋଗାଯୋଗ',
+                'dashboard-title': 'ଶିକ୍ଷକ ଡ୍ୟାସବୋର୍ଡ',
+                'dashboard-desc': 'ଛାତ୍ର ପ୍ରଗତି ଉପରେ ନଜର ରଖନ୍ତୁ ଏବଂ ଶିକ୍ଷଣ କାର୍ଯ୍ୟକଳାପ ପରିଚାଳନା କରନ୍ତୁ',
+                'total-students-label': 'ମୋଟ ଛାତ୍ର',
+                'student-growth': 'ଗତ ସପ୍ତାହ ଠାରୁ +12',
+                'active-today-label': 'ଆଜି ସକ୍ରିୟ',
+                'active-growth': 'ଗତ ସପ୍ତାହ ଠାରୁ +5',
+                'avg-progress': 'ହାରାହାରି ପ୍ରଗତି',
+                'progress-growth': 'ଗତ ସପ୍ତାହ ଠାରୁ +3%',
+                'overview-title': 'ସମୀକ୍ଷା',
+                'tab-students': 'ଛାତ୍ରମାନେ',
+                'tab-assignments': 'ନିୟୋଜନଗୁଡିକ',
+                'tab-analytics': 'ବିଶ୍ଳେଷଣ',
+                'activity1-title': 'ରା ନ୍ୟୁଟ୍ରିଏଣ୍ଟ',
+                'activity1-desc': 'ଜୀବନ୍ତ ଜୀବଙ୍କ ଉପରେ ନିୟୋଜନା ଦାଖଲ କଲେ',
+                'activity1-score': 'ସ୍କୋର: 8/10',
+                'activity2-title': 'ମୀରା ଦାସ',
+                'activity2-desc': 'ମାପ ଉପରେ ଭିଡିଓ ଦେଖିଲେ',
+                'activity2-time': '3 ଘଣ୍ଟା ପୂର୍ବେ',
+                'quick-actions-title': 'ଶୀଘ୍ର କାର୍ଯ୍ୟ',
+                'action-create': 'ନିୟୋଜନା ସୃଷ୍ଟି କରନ୍ତୁ',
+                'action-reports': 'ରିପୋର୍ଟ ଦେଖନ୍ତୁ',
+                'action-announce': 'ଘୋଷଣା ପଠାନ୍ତୁ',
+                'action-classes': 'କ୍ଲାସ୍ ପରିଚାଳନା କରନ୍ତୁ',
+                'upcoming-title': 'ଆସନ୍ତା ନିୟୋଜନାଗୁଡିକ',
+                'assignment1-title': 'ମୁଖ୍ୟ କ୍ୱିଜ୍: ଭଗ୍ନାଂଶ',
+                'assignment1-due': 'ଡିସେମ୍ବର 18 ପର୍ଯ୍ୟନ୍ତ',
+                'assignment2-title': 'ଜଳ ଚକ୍ର ନିୟୋଜନା',
+                'assignment2-due': 'ଡିସେମ୍ବର 22 ପର୍ଯ୍ୟନ୍ତ',
+                'help-title': 'ସହାୟତା ଦରକାର?',
+                'help-resources': 'ଶିକ୍ଷଣ ସମ୍ବଳ',
+                'help-support': 'ସହାୟତା ସଂପର୍କ କରନ୍ତୁ',
+                'help-guide': 'ବ୍ୟବହାରକାରୀ ଗାଇଡ୍',
+                'footer-desc': 'ଓଡ଼ିଶାର ଷଷ୍ଠ ଶ୍ରେଣୀର ଛାତ୍ରଛାତ୍ରୀମାନଙ୍କ ପାଇଁ ସ୍ଥାନୀୟ ବିଷୟବସ୍ତୁ ଏବଂ ଇଣ୍ଟରାକ୍ଟିଭ୍ ଶିକ୍ଷଣ ମାଧ୍ୟମରେ ବିଜ୍ଞାନ ଏବଂ ଗଣିତ ଶିକ୍ଷାକୁ ଆକର୍ଷଣୀୟ ଏବଂ ପ୍ରାସଙ୍ଗିକ କରିବା',
+                'quick-links': 'ଶୀଘ୍ର ଲିଙ୍କ୍',
+                'contact-us': 'ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ',
+                'footer-address': 'ଶିକ୍ଷା ବିଭାଗ, ଭୁବନେଶ୍ୱର',
+                'copyright': '© 2023 STEM ଲର୍ନ ଓଡ଼ିଶା। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।'
+            }
+        };
+
+        // DOM elements
+        const langButtons = document.querySelectorAll('.lang-btn');
+        
+        // Initialize the page
+        function init() {
+            // Set up language switcher
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+
+            // Initialize with default language
+            switchLanguage('en');
+        }
+
+        // Switch language function
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            langButtons.forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update all text content
+            Object.keys(translations[lang]).forEach(key => {
+                const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+                elements.forEach(element => {
+                    element.textContent = translations[lang][key];
+                });
+            });
+            
+            // Add Odia font class for Odia text
+            if (lang === 'or') {
+                document.body.classList.add('odia-text');
+            } else {
+                document.body.classList.remove('odia-text');
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

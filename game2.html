@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Memory Match - STEM Learn Odisha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f0f7ff;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: white;
+            color: #2a69ac;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #38b2ac;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.6rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Game Header */
+        .game-header {
+            background: linear-gradient(rgba(14, 42, 71, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Game Stats */
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .timer i {
+            color: #e53e3e;
+        }
+
+        .score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .score i {
+            color: #38a169;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #3182ce;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Memory Game Area */
+        .memory-game-area {
+            padding: 30px 0 50px;
+            text-align: center;
+        }
+
+        .round-info {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .round-title {
+            font-size: 1.4rem;
+            color: #1a365d;
+            margin-bottom: 10px;
+        }
+
+        .round-description {
+            color: #64748b;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+
+        .card {
+            height: 120px;
+            background: #3182ce;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            transform: rotateY(180deg);
+            padding: 10px;
+        }
+
+        .card-front img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .card-front.nutrient-card {
+            flex-direction: column;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .nutrient-type {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .nutrient-benefit {
+            font-size: 0.8rem;
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #3182ce 0%, #2b6cb0 100%);
+            font-size: 2.5rem;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            cursor: default;
+            transform: rotateY(180deg) scale(0.95);
+            box-shadow: 0 0 15px rgba(72, 187, 120, 0.6);
+        }
+
+        /* Controls */
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+        }
+
+        .control-btn.reset {
+            background: #e53e3e;
+        }
+
+        .control-btn.reset:hover {
+            background: #c53030;
+        }
+
+        /* Educational Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #48bb78;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a365d;
+        }
+
+        .modal-text {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .did-you-know {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 4px;
+        }
+
+        .did-you-know-title {
+            font-weight: 600;
+            color: #3182ce;
+            margin-bottom: 8px;
+        }
+
+        .modal-action {
+            padding: 12px 25px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action:hover {
+            background: #2c9a94;
+        }
+
+        /* Audio Controls */
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .audio-btn {
+            padding: 8px 15px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .audio-btn:hover {
+            background: #2b6cb0;
+        }
+
+        /* Level Complete */
+        .level-complete {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .badge {
+            font-size: 3rem;
+            color: #d69e2e;
+            margin-bottom: 15px;
+        }
+
+        .level-title {
+            font-size: 1.8rem;
+            color: #1a365d;
+            margin-bottom: 15px;
+        }
+
+        .level-text {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .next-level-btn {
+            padding: 12px 30px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-level-btn:hover {
+            background: #2c9a94;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about {
+            padding-right: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            font-size: 1.8rem;
+            background: #38b2ac;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            color: #38b2ac;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d3748;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: #38b2ac;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .cards-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .game-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .card {
+                height: 100px;
+            }
+            
+            .card-back {
+                font-size: 2rem;
+            }
+            
+            .nutrient-type {
+                font-size: 0.9rem;
+            }
+            
+            .nutrient-benefit {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            
+            .card {
+                height: 80px;
+            }
+            
+            .card-back {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Odia font support */
+        .odia-text {
+            font-family: 'Kalinga', 'Nirmala UI', 'Segoe UI', sans-serif;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .bounce {
+            animation: bounce 1s;
+        }
+        
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+            100% {transform: scale(1);}
+        }
+        
+        .pulse {
+            animation: pulse 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="logo-text">STEM <span>Learn</span> Odisha</div>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="home.html" data-translate="nav-home">Home</a></li>
+                        <li><a href="science.html" data-translate="nav-science">Science</a></li>
+                        <li><a href="math.html" data-translate="nav-math">Math</a></li>
+                        <li><a href="teachers.html" data-translate="nav-teachers">Teachers</a></li>
+                        <li><a href="about.html" data-translate="nav-about">About</a></li>
+                        <li><a href="contact.html" data-translate="nav-contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Header -->
+    <section class="game-header">
+        <div class="container">
+            <h1 data-translate="game-title">Food Memory Match</h1>
+            <p data-translate="game-desc">Match food images with their nutritional information to learn about healthy eating!</p>
+        </div>
+    </section>
+
+    <!-- Game Stats -->
+    <div class="container">
+        <div class="game-stats">
+            <div class="timer">
+                <i class="fas fa-clock"></i>
+                <span id="time">07:00</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress" style="width: 0%"></div>
+            </div>
+            
+            <div class="score">
+                <i class="fas fa-star"></i>
+                <span id="score" data-translate="score-text">Score: 0/120</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Memory Game Area -->
+    <section class="memory-game-area">
+        <div class="container">
+            <div class="round-info">
+                <h2 class="round-title" id="round-title">Round 1: Basic Foods</h2>
+                <p class="round-description" id="round-description">Match basic food items with their nutritional information</p>
+            </div>
+            
+            <div class="cards-grid" id="cards-grid">
+                <!-- Cards will be generated by JavaScript -->
+            </div>
+            
+            <div class="game-controls">
+                <button class="control-btn" id="hint-btn">
+                    <i class="fas fa-lightbulb"></i>
+                    <span data-translate="hint-btn">Show Hint</span>
+                </button>
+                <button class="control-btn reset" id="reset-btn">
+                    <i class="fas fa-redo"></i>
+                    <span data-translate="reset-btn">Reset Game</span>
+                </button>
+            </div>
+            
+            <div class="level-complete" id="level-complete">
+                <div class="badge">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 class="level-title" data-translate="level-title">Level Complete!</h2>
+                <p class="level-text" id="level-text">Congratulations! You've matched all pairs correctly.</p>
+                <button class="next-level-btn" data-translate="next-level">Next Level</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Educational Modal -->
+    <div class="modal" id="educational-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h2 class="modal-title" id="modal-title">Correct Match!</h2>
+            
+            <p class="modal-text" id="modal-text">Great job! You've correctly matched the food with its nutritional information.</p>
+            
+            <div class="did-you-know">
+                <div class="did-you-know-title" data-translate="did-you-know">Did you know?</div>
+                <p id="fact-text">Rice is the main source of carbohydrates in Odisha meals and provides quick energy for daily activities.</p>
+            </div>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="audio-en">
+                    <i class="fas fa-volume-up"></i>
+                    <span>English</span>
+                </button>
+                <button class="audio-btn" id="audio-or">
+                    <i class="fas fa-volume-up"></i>
+                    <span>ଓଡ଼ିଆ</span>
+                </button>
+            </div>
+            
+            <button class="modal-action" id="modal-action" data-translate="continue-btn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="footer-logo-text">STEM Learn Odisha</div>
+                    </div>
+                    <p data-translate="footer-desc">Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="quick-links">Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html"><i class="fas fa-home"></i> <span data-translate="nav-home">Home</span></a></li>
+                        <li><a href="science.html"><i class="fas fa-flask"></i> <span data-translate="nav-science">Science</span></a></li>
+                        <li><a href="math.html"><i class="fas fa-calculator"></i> <span data-translate="nav-math">Math</span></a></li>
+                        <li><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i> <span data-translate="nav-teachers">Teachers</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="contact-us">Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-translate="footer-address">Department of Education, Bhubaneswar</span></a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 674 123 4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@stemlearnodisha.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p data-translate="copyright">© 2023 STEM Learn Odisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Game data with three rounds of increasing difficulty
+        const gameData = {
+            round1: {
+                name: {
+                    en: "Round 1: Basic Foods",
+                    or: "ରାଉଣ୍ଡ 1: ମୌଳିକ ଖାଦ୍ୟ"
+                },
+                description: {
+                    en: "Match basic food items with their nutritional information",
+                    or: "ମୌଳିକ ଖାଦ୍ୟ ଜିନିଷଗୁଡିକୁ ସେମାନଙ୍କର ପୁଷ୍ଟିକର ସୂଚନା ସହିତ ମିଳାନ୍ତୁ"
+                },
+                pairs: [
+                    {
+                        food: {
+                            name: {
+                                en: "Rice",
+                                or: "ଚାଉଳ"
+                            },
+                            image: "https://images.unsplash.com/photo-1593551875025-30cbcd38715f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Carbohydrates",
+                                or: "କାର୍ବୋହାଇଡ୍ରେଟ୍"
+                            },
+                            benefit: {
+                                en: "Provides Energy",
+                                or: "ଶକ୍ତି ଯୋଗାଏ"
+                            }
+                        },
+                        fact: {
+                            en: "Rice is the main source of carbohydrates in Odisha meals. It gives quick energy for daily activities.",
+                            or: "ଚାଉଳ ଓଡ଼ିଶାର ଖାଦ୍ୟରେ କାର୍ବୋହାଇଡ୍ରେଟ୍ର ମୁଖ୍ୟ ଉତ୍ସ। ଏହା ଦ daily ନନ୍ଦିନ କାର୍ଯ୍ୟକଳାପ ପାଇଁ ଦ୍ରୁତ ଶକ୍ତି ଦେଇଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-rice-carbs.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-rice-carbs.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Lentils (Dal)",
+                                or: "ଡାଲି"
+                            },
+                            image: "https://images.unsplash.com/photo-1567337710282-00832c419fec?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Protein",
+                                or: "ପ୍ରୋଟିନ୍"
+                            },
+                            benefit: {
+                                en: "Builds Muscles",
+                                or: "ମାଂସପେଶୀ ଗଠନ କରେ"
+                            }
+                        },
+                        fact: {
+                            en: "Lentils are a staple protein source in Odia cuisine. They help in growth and repair of body tissues.",
+                            or: "ଡାଲି ଓଡ଼ିଆ ରନ୍ଧାଣରେ ଏକ ମୁଖ୍ୟ ପ୍ରୋଟିନ୍ ଉତ୍ସ। ଏହା ଶରୀରର ତନ୍ତୁଗୁଡିକର ବୃଦ୍ଧି ଏବଂ ମରାମତିରେ ସହାୟକ ହୋଇଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-lentils-protein.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-lentils-protein.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Fish",
+                                or: "ମାଛ"
+                            },
+                            image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Omega-3",
+                                or: "ଓମେଗା-3"
+                            },
+                            benefit: {
+                                en: "Brain Health",
+                                or: "ମସ୍ତିଷ୍କ ସ୍ୱାସ୍ଥ୍ୟ"
+                            }
+                        },
+                        fact: {
+                            en: "Fish is abundant in Odisha's coastal areas. It contains omega-3 fatty acids that are essential for brain development.",
+                            or: "ମାଛ ଓଡ଼ିଶାର ଉପକୂଳ ଅଞ୍ଚଳରେ ପ୍ରଚୁର ପରିମାଣରେ ମିଳେ। ଏଥିରେ ଓମେଗା-3 ଫ୍ୟାଟି ଏସିଡ୍ ଅଛି ଯାହା ମସ୍ତିଷ୍କ ବିକାଶ ପାଇଁ ଅତ୍ୟାବଶ୍ୟକ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-fish-omega3.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-fish-omega3.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Banana",
+                                or: "କଦଳୀ"
+                            },
+                            image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Potassium",
+                                or: "ପୋଟାସିଅମ୍"
+                            },
+                            benefit: {
+                                en: "Regulates Blood Pressure",
+                                or: "ରକ୍ତଚାପ ନିୟନ୍ତ୍ରଣ କରେ"
+                            }
+                        },
+                        fact: {
+                            en: "Bananas are rich in potassium which helps maintain proper heart function and blood pressure.",
+                            or: "କଦଳୀ ପୋଟାସିଅମ୍ରେ ପରିପୂର୍ଣ୍ଣ ଯାହା ସଠିକ୍ ହୃତ୍ପିଣ୍ଡ କାର୍ଯ୍ୟ ଏବଂ ରକ୍ତଚାପ ବଜାୟ ରଖିବାରେ ସହାୟକ ହୋଇଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-banana-potassium.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-banana-potassium.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Milk",
+                                or: "କ୍ଷୀର"
+                            },
+                            image: "https://images.unsplash.com/photo-1569897888-341ab6d3bf59?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Calcium",
+                                or: "କ୍ୟାଲ୍ସିଅମ୍"
+                            },
+                            benefit: {
+                                en: "Strong Bones",
+                                or: "ଶକ୍ତିଶାଳୀ ହାଡ଼"
+                            }
+                        },
+                        fact: {
+                            en: "Milk is an excellent source of calcium which is essential for building strong bones and teeth.",
+                            or: "କ୍ଷୀର କ୍ୟାଲ୍ସିଅମ୍ର ଏକ ଉତ୍କୃଷ୍ଟ ଉତ୍ସ ଯାହା ଶକ୍ତିଶାଳୀ ହାଡ଼ ଏବଂ ଦାନ୍ତ ଗଠନ ପାଇଁ ଅତ୍ୟାବଶ୍ୟକ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-milk-calcium.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-milk-calcium.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Eggs",
+                                or: "ଅଣ୍ଡା"
+                            },
+                            image: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Protein",
+                                or: "ପ୍ରୋଟିନ୍"
+                            },
+                            benefit: {
+                                en: "Muscle Building",
+                                or: "ମାଂସପେଶୀ ଗଠନ"
+                            }
+                        },
+                        fact: {
+                            en: "Eggs are considered a complete protein source as they contain all essential amino acids needed by our body.",
+                            or: "ଅଣ୍ଡା ଏକ ସମ୍ପୂର୍ଣ୍ଣ ପ୍ରୋଟିନ୍ ଉତ୍ସ ବୋଲି ବିବେଚିତ କରାଯାଏ କାରଣ ଏଥିରେ ଆମ ଶରୀରଦ୍ୱାରା ଆବଶ୍ୟକ ସମସ୍ତ ଜରୁରୀ ଆମିନୋ ଏସିଡ୍ ଅଛି।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-eggs-protein.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-eggs-protein.mp3"
+                        }
+                    }
+                ]
+            },
+            round2: {
+                name: {
+                    en: "Round 2: Processed Foods",
+                    or: "ରାଉଣ୍ଡ 2: ପ୍ରକ୍ରିୟାକରଣ ଖାଦ୍ୟ"
+                },
+                description: {
+                    en: "Match processed food items with their nutritional information",
+                    or: "ପ୍ରକ୍ରିୟାକରଣ ଖାଦ୍ୟ ଜିନିଷଗୁଡିକୁ ସେମାନଙ୍କର ପୁଷ୍ଟିକର ସୂଚନା ସହିତ ମିଳାନ୍ତୁ"
+                },
+                pairs: [
+                    {
+                        food: {
+                            name: {
+                                en: "Bread",
+                                or: "ପାଉଁରୁଟି"
+                            },
+                            image: "https://images.unsplash.com/photo-1536610640980-6d1d16c23476?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Carbohydrates",
+                                or: "କାର୍ବୋହାଇଡ୍ରେଟ୍"
+                            },
+                            benefit: {
+                                en: "Quick Energy",
+                                or: "ଦ୍ରୁତ ଶକ୍ତି"
+                            }
+                        },
+                        fact: {
+                            en: "Bread is made from wheat which provides carbohydrates for energy. Whole grain bread has more fiber.",
+                            or: "ପାଉଁରୁଟି ଗହମରୁ ତିଆରି ଯାହା ଶକ୍ତି ପାଇଁ କାର୍ବୋହାଇଡ୍ରେଟ୍ ଯୋଗାଏ। ସମ୍ପୂର୍ଣ୍ଣ ଶସ୍ୟ �পাউঁରুटିରେ ଅଧିକ ତନ୍ତୁ ଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-bread-carbs.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-bread-carbs.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Cheese",
+                                or: "ପନୀର"
+                            },
+                            image: "https://images.unsplash.com/photo-1529342243924-51ac69f1d1ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Protein & Calcium",
+                                or: "ପ୍ରୋଟିନ୍ ଏବଂ କ୍ୟାଲ୍ସିଅମ୍"
+                            },
+                            benefit: {
+                                en: "Bone & Muscle Health",
+                                or: "ହାଡ଼ ଏବଂ ମାଂସପେଶୀ ସ୍ୱାସ୍ଥ୍ୟ"
+                            }
+                        },
+                        fact: {
+                            en: "Cheese is concentrated milk that provides both protein for muscles and calcium for bones.",
+                            or: "ପନୀର ହେଉଛି ସାନ୍ଦ୍ରୀକୃତ କ୍ଷୀର ଯାହା ମାଂସପେଶୀ ପାଇଁ ପ୍ରୋଟିନ୍ ଏବଂ ହାଡ଼ ପାଇଁ କ୍ୟାଲ୍ସିଅମ୍ ପ୍ରଦାନ କରେ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-cheese-protein-calcium.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-cheese-protein-calcium.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Cooking Oil",
+                                or: "ରନ୍ଧା ତେଲ"
+                            },
+                            image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Fats",
+                                or: "ଚର୍ବି"
+                            },
+                            benefit: {
+                                en: "Energy Storage",
+                                or: "ଶକ୍ତି ସଂଚୟ"
+                            }
+                        },
+                        fact: {
+                            en: "While oils provide essential fatty acids, they should be consumed in moderation as they are high in calories.",
+                            or: "ତେଲଗୁଡିକ ଅତ୍ୟାବଶ୍ୟକ ଫ୍ୟାଟି ଏସିଡ୍ ଯୋଗାଇଲାବେଳେ, ସେଗୁଡିକ ସାଂମାତ୍ରିକ ଭାବରେ ଖାଇବା ଉଚିତ କାରଣ ଏଥିରେ କ୍ୟାଲୋରୀ ଅଧିକ ଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-oil-fats.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-oil-fats.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Yogurt",
+                                or: "ଦହି"
+                            },
+                            image: "https://images.unsplash.com/photo-1567175325938-14c2d4e4a0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Calcium + Probiotics",
+                                or: "କ୍ୟାଲ୍ସିଅମ୍ + ପ୍ରୋବାୟୋଟିକ୍"
+                            },
+                            benefit: {
+                                en: "Bones + Digestion",
+                                or: "ହାଡ଼ + ପାଚନ"
+                            }
+                        },
+                        fact: {
+                            en: "Yogurt provides calcium for strong bones and probiotics for healthy digestion and gut health.",
+                            or: "ଦହି ଶକ୍ତିଶାଳୀ ହାଡ଼ ପାଇଁ କ୍ୟାଲ୍ସିଅମ୍ ଏବଂ ସୁସ୍ଥ ପାଚନ ଏବଂ ଆନ୍ତ୍ରିକ ସ୍ୱାସ୍ଥ୍ୟ ପାଇଁ ପ୍ରୋବାୟୋଟିକ୍ ଯୋଗାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-yogurt-calcium-probiotics.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-yogurt-calcium-probiotics.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Nuts",
+                                or: "ବାଦାମ"
+                            },
+                            image: "https://images.unsplash.com/photo-1517344884509-a0c97ec11bcc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Healthy Fats + Protein",
+                                or: "ସୁସ୍ଥ ଚର୍ବି + ପ୍ରୋଟିନ୍"
+                            },
+                            benefit: {
+                                en: "Heart Health + Energy",
+                                or: "ହୃଦୟ ସ୍ୱାସ୍ଥ୍ୟ + ଶକ୍ତି"
+                            }
+                        },
+                        fact: {
+                            en: "Nuts contain healthy fats that support heart health and protein that provides sustained energy.",
+                            or: "ବାଦାମରେ ସୁସ୍ଥ ଚର୍ବି ଅଛି ଯାହା ହୃଦୟ ସ୍ୱାସ୍ଥ୍ୟକୁ ସମର୍ଥନ କରେ ଏବଂ ପ୍ରୋଟିନ୍ ଯାହା ସ୍ଥାୟୀ ଶକ୍ତି ଯୋଗାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-nuts-fats-protein.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-nuts-fats-protein.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Honey",
+                                or: "ମହୁ"
+                            },
+                            image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Natural Sugars",
+                                or: "ପ୍ରାକୃତିକ ଚିନି"
+                            },
+                            benefit: {
+                                en: "Quick Energy + Antioxidants",
+                                or: "ଦ୍ରୁତ ଶକ୍ତି + ଆଣ୍ଟିଅକ୍ସିଡାଣ୍ଟ୍"
+                            }
+                        },
+                        fact: {
+                            en: "Honey provides natural sugars for quick energy and contains antioxidants that help fight inflammation.",
+                            or: "ମହୁ ଦ୍ରୁତ ଶକ୍ତି ପାଇଁ ପ୍ରାକୃତିକ ଚିନି ଯୋଗାଏ ଏବଂ ଆଣ୍ଟିଅକ୍ସିଡାଣ୍ଟ୍ ଧାରଣ କରେ ଯାହା ପ୍ରଦାହ ସହିତ ଲଢେଇ କରିବାରେ ସହାୟକ ହୋଇଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-honey-sugars.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-honey-sugars.mp3"
+                        }
+                    }
+                ]
+            },
+            round3: {
+                name: {
+                    en: "Round 3: Mixed Nutrition Foods",
+                    or: "ରାଉଣ୍ଡ 3: ମିଶ୍ରିତ ପୁଷ୍ଟିକର ଖାଦ୍ୟ"
+                },
+                description: {
+                    en: "Match foods with multiple nutrients to their benefits",
+                    or: "ଏକାଧିକ ପୁଷ୍ଟିକର ପଦାର୍ଥ ଥିବା ଖାଦ୍ୟଗୁଡିକୁ ସେମାନଙ୍କର ଉପକାରିତା ସହିତ ମିଳାନ୍ତୁ"
+                },
+                pairs: [
+                    {
+                        food: {
+                            name: {
+                                en: "Spinach",
+                                or: "ପାଳଙ୍ଗ"
+                            },
+                            image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Iron + Vitamins",
+                                or: "ଲୌହ + ଭିଟାମିନ୍"
+                            },
+                            benefit: {
+                                en: "Blood Health + Immunity",
+                                or: "ରକ୍ତ ସ୍ୱାସ୍ଥ୍ୟ + ପ୍ରତିରୋଧକ ଶକ୍ତି"
+                            }
+                        },
+                        fact: {
+                            en: "Spinach is a leafy green vegetable rich in iron for healthy blood and vitamins for strong immunity.",
+                            or: "ପାଳଙ୍ଗ ଏକ ପାଚିଲା ସବଜି ଯାହା ସୁସ୍ଥ ରକ୍ତ ପାଇଁ ଲୌହ ଏବଂ ଶକ୍ତିଶାଳୀ ପ୍ରତିରୋଧକ ଶକ୍ତି ପାଇଁ ଭିଟାମିନ୍ରେ ପରିପୂର୍ଣ୍ଣ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-spinach-iron-vitamins.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-spinach-iron-vitamins.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Sweet Potato",
+                                or: "ମିଠା ଆଳୁ"
+                            },
+                            image: "https://images.unsplash.com/photo-1517847632027-8a2e85283513?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Carbs + Vitamin A",
+                                or: "କାର୍ବୋହାଇଡ୍ରେଟ୍ + ଭିଟାମିନ୍ ଏ"
+                            },
+                            benefit: {
+                                en: "Energy + Vision",
+                                or: "ଶକ୍ତି + ଦୃଷ୍ଟି"
+                            }
+                        },
+                        fact: {
+                            en: "Sweet potatoes provide carbohydrates for energy and are rich in Vitamin A which is essential for good vision.",
+                            or: "ମିଠା ଆଳୁ ଶକ୍ତି ପାଇଁ କାର୍ବୋହାଇଡ୍ରେଟ୍ ଯୋଗାଏ ଏବଂ ଭିଟାମିନ୍ ଏ ରେ ପରିପୂର୍ଣ୍ଣ ଯାହା ଭଲ ଦୃଷ୍ଟି ପାଇଁ ଅତ୍ୟାବଶ୍ୟକ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-sweet-potato-carbs-vitamina.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-sweet-potato-carbs-vitamina.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Beans",
+                                or: "ବିନ୍ସ"
+                            },
+                            image: "https://images.unsplash.com/photo-1563453392212-326f5e854473?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Protein + Fiber",
+                                or: "ପ୍ରୋଟିନ୍ + ତନ୍ତୁ"
+                            },
+                            benefit: {
+                                en: "Muscles + Digestion",
+                                or: "ମାଂସପେଶୀ + ପାଚନ"
+                            }
+                        },
+                        fact: {
+                            en: "Beans are an excellent plant-based source of protein for muscles and fiber for healthy digestion.",
+                            or: "ବିନ୍ସ ମାଂସପେଶୀ ପାଇଁ ପ୍ରୋଟିନ୍ ଏବଂ ସୁସ୍ଥ ପାଚନ ପାଇଁ ତନ୍ତୁର ଏକ ଉତ୍କୃଷ୍ଟ ଉଦ୍ଭିଦ-ଆଧାରିତ ଉତ୍ସ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-beans-protein-fiber.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-beans-protein-fiber.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Berries",
+                                or: "ବେରି"
+                            },
+                            image: "https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Antioxidants + Vitamin C",
+                                or: "ଆଣ୍ଟିଅକ୍ସିଡାଣ୍ଟ୍ + ଭିଟାମିନ୍ ସି"
+                            },
+                            benefit: {
+                                en: "Cell Protection + Immunity",
+                                or: "କୋଷ ସୁରକ୍ଷା + ପ୍ରତିରୋଧକ ଶକ୍ତି"
+                            }
+                        },
+                        fact: {
+                            en: "Berries are packed with antioxidants that protect cells from damage and Vitamin C that boosts immunity.",
+                            or: "ବେରି ଆଣ୍ଟିଅକ୍ସିଡାଣ୍ଟ୍ ରେ ପରିପୂର୍ଣ୍ଣ ଯାହା କୋଷଗୁଡିକୁ କ୍ଷତିରୁ ରକ୍ଷା କରେ ଏବଂ ଭିଟାମିନ୍ ସି ଯାହା ପ୍ରତିରୋଧକ ଶକ୍ତି ବ increases ାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-berries-antioxidants-vitaminc.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-berries-antioxidants-vitaminc.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Avocado",
+                                or: "ଆଭୋକାଡୋ"
+                            },
+                            image: "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Healthy Fats + Fiber",
+                                or: "ସୁସ୍ଥ ଚର୍ବି + ତନ୍ତୁ"
+                            },
+                            benefit: {
+                                en: "Heart Health + Digestion",
+                                or: "ହୃଦୟ ସ୍ୱାସ୍ଥ୍ୟ + ପାଚନ"
+                            }
+                        },
+                        fact: {
+                            en: "Avocados are rich in monounsaturated fats that support heart health and fiber that aids digestion.",
+                            or: "ଆଭୋକାଡୋ ମୋନୋଆନସେଚୁରେଟେଡ୍ ଫ୍ୟାଟରେ ପରିପୂର୍ଣ୍ଣ ଯାହା ହୃଦୟ ସ୍ୱାସ୍ଥ୍ୟକୁ ସମର୍ଥନ କରେ ଏବଂ ତନ୍ତୁ ଯାହା ପାଚନରେ ସହାୟକ ହୋଇଥାଏ।"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-avocado-fats-fiber.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-avocado-fats-fiber.mp3"
+                        }
+                    },
+                    {
+                        food: {
+                            name: {
+                                en: "Broccoli",
+                                or: "ବ୍ରୋକୋଲି"
+                            },
+                            image: "https://images.unsplash.com/photo-1459411621453-7b03977f4bfc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80"
+                        },
+                        nutrient: {
+                            type: {
+                                en: "Vitamin C + Fiber",
+                                or: "ଭିଟାମିନ୍ ସି + ତନ୍ତୁ"
+                            },
+                            benefit: {
+                                en: "Immunity + Digestion",
+                                or: "ପ୍ରତିରୋଧକ ଶକ୍ତି + ପାଚନ"
+                            }
+                        },
+                        fact: {
+                            en: "Broccoli is packed with Vitamin C to boost immunity and fiber to support healthy digestion.",
+                            or: "ବ୍ରୋକୋଲି ପ୍ରତିରୋଧକ ଶକ୍ତି ବ increase ାଇବା ପାଇଁ ଭିଟାମିନ୍ ସି ଏବଂ ସୁସ୍ଥ ପାଚନକୁ ସମର୍ଥନ କରିବା ପାଇଁ ତନ୍ତୁରେ ପରିପୂର୍ଣ୍ଣ |"
+                        },
+                        audio: {
+                            en: "https://storage.googleapis.com/cloud-tts-api/audio/en-broccoli-vitaminc-fiber.mp3",
+                            or: "https://storage.googleapis.com/cloud-tts-api/audio/or-broccoli-vitaminc-fiber.mp3"
+                        }
+                    }
+                ]
+            }
+        };
+
+        // Game state
+        let currentLanguage = 'en';
+        let currentRound = 'round1';
+        let score = 0;
+        let timeLeft = 420; // 7 minutes in seconds
+        let timerInterval;
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let totalPairs = 0;
+        let canFlip = true;
+        let currentAudio = null;
+
+        // DOM elements
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const cardsGrid = document.getElementById('cards-grid');
+        const scoreElement = document.getElementById('score');
+        const timeElement = document.getElementById('time');
+        const progressElement = document.getElementById('progress');
+        const roundTitle = document.getElementById('round-title');
+        const roundDescription = document.getElementById('round-description');
+        const levelComplete = document.getElementById('level-complete');
+        const levelText = document.getElementById('level-text');
+        const nextLevelBtn = document.querySelector('.next-level-btn');
+        const hintBtn = document.getElementById('hint-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const educationalModal = document.getElementById('educational-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+        const factText = document.getElementById('fact-text');
+        const modalAction = document.getElementById('modal-action');
+        const modalClose = document.getElementById('modal-close');
+        const audioEnBtn = document.getElementById('audio-en');
+        const audioOrBtn = document.getElementById('audio-or');
+
+        // Translations
+        const translations = {
+            en: {
+                'nav-home': 'Home',
+                'nav-science': 'Science',
+                'nav-math': 'Math',
+                'nav-teachers': 'Teachers',
+                'nav-about': 'About',
+                'nav-contact': 'Contact',
+                'game-title': 'Food Memory Match',
+                'game-desc': 'Match food images with their nutritional information to learn about healthy eating!',
+                'score-text': 'Score: 0/120',
+                'hint-btn': 'Show Hint',
+                'reset-btn': 'Reset Game',
+                'level-title': 'Level Complete!',
+                'level-text': 'Congratulations! You\'ve matched all pairs correctly.',
+                'next-level': 'Next Level',
+                'did-you-know': 'Did you know?',
+                'continue-btn': 'Continue',
+                'footer-desc': 'Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.',
+                'quick-links': 'Quick Links',
+                'contact-us': 'Contact Us',
+                'footer-address': 'Department of Education, Bhubaneswar',
+                'copyright': '© 2023 STEM Learn Odisha. All rights reserved.'
+            },
+            or: {
+                'nav-home': 'ମୁଖ୍ୟ ପୃଷ୍ଠା',
+                'nav-science': 'ବିଜ୍ଞାନ',
+                'nav-math': 'ଗଣିତ',
+                'nav-teachers': 'ଶିକ୍ଷକମାନେ',
+                'nav-about': 'ଆମ ବିଷୟରେ',
+                'nav-contact': 'ଯୋଗାଯୋଗ',
+                'game-title': 'ଖାଦ୍ୟ ମେମୋରୀ ମ୍ୟାଚ୍',
+                'game-desc': 'ସୁସ୍ଥ ଖାଦ୍ୟ ବିଷୟରେ ଶିଖିବା ପାଇଁ ଖାଦ୍ୟ ପ୍ରତିଛବିଗୁଡିକୁ ସେମାନଙ୍କର ପୁଷ୍ଟିକର ସୂଚନା ସହିତ ମିଳାନ୍ତୁ!',
+                'score-text': 'ସ୍କୋର: 0/120',
+                'hint-btn': 'ସୂଚନା ଦେଖାନ୍ତୁ',
+                'reset-btn': 'ଖେଳ ପୁନ et ସେଟ୍ କରନ୍ତୁ',
+                'level-title': 'ସ୍ତର ସମାପ୍ତ!',
+                'level-text': 'ଅଭିନନ୍ଦନ! ଆପଣ ସମସ୍ତ ଯୋଡି ସଠିକ୍ ଭାବରେ ମିଳାଇଛନ୍ତି।',
+                'next-level': 'ପରବର୍ତ୍ତୀ ସ୍ତର',
+                'did-you-know': 'ଆପଣ ଜାଣିଛନ୍ତି କି?',
+                'continue-btn': 'ଜାରି ରଖନ୍ତୁ',
+                'footer-desc': 'ଓଡ଼ିଶାର ଷଷ୍ଠ ଶ୍ରେଣୀର ଛାତ୍ରଛାତ୍ରୀମାନଙ୍କ ପାଇଁ ସ୍ଥାନୀୟ ବିଷୟବସ୍ତୁ ଏବଂ ଇଣ୍ଟରାକ୍ଟିଭ୍ ଶିକ୍ଷଣ ମାଧ୍ୟମରେ ବିଜ୍ଞାନ ଏବଂ ଗଣିତ �শিক্ষাকে ଆକର୍ଷଣୀୟ ଏବଂ ପ୍ରାସଙ୍ଗିକ କରିବା',
+                'quick-links': 'ଶୀଘ୍ର ଲିଙ୍କ୍',
+                'contact-us': 'ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ',
+                'footer-address': 'ଶିକ୍ଷା ବିଭାଗ, ଭୁବନେଶ୍ୱର',
+                'copyright': '© 2023 STEM ଲର୍ନ ଓଡ଼ିଶା। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।'
+            }
+        };
+
+        // Initialize the game
+        function init() {
+            // Set up language switcher
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+
+            // Set up game controls
+            hintBtn.addEventListener('click', showHint);
+            resetBtn.addEventListener('click', resetGame);
+            nextLevelBtn.addEventListener('click', goToNextLevel);
+            modalAction.addEventListener('click', closeModal);
+            modalClose.addEventListener('click', closeModal);
+            audioEnBtn.addEventListener('click', () => playAudio('en'));
+            audioOrBtn.addEventListener('click', () => playAudio('or'));
+
+            // Initialize with default language
+            switchLanguage('en');
+            
+            // Start the first round
+            startRound(currentRound);
+        }
+
+        // Start a new round
+        function startRound(round) {
+            currentRound = round;
+            score = 0;
+            matchedPairs = 0;
+            flippedCards = [];
+            updateScore();
+            
+            // Set total pairs based on round
+            totalPairs = gameData[round].pairs.length;
+            
+            // Reset timer
+            timeLeft = 420;
+            updateTimerDisplay();
+            
+            // Clear previous interval if any
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Start the timer
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert(currentLanguage === 'en' ? 'Time\'s up! Please try again.' : 'ସମୟ ସମାପ୍ତ! ଦୟାକରି ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |');
+                    resetGame();
+                }
+            }, 1000);
+            
+            // Create the cards
+            createCards();
+            
+            // Update round info
+            updateRoundInfo();
+            
+            // Hide level complete message
+            levelComplete.style.display = 'none';
+        }
+
+        // Create cards for the current round
+        function createCards() {
+            // Clear previous cards
+            cardsGrid.innerHTML = '';
+            
+            const roundPairs = gameData[currentRound].pairs;
+            let cards = [];
+            
+            // Create food cards
+            roundPairs.forEach((pair, index) => {
+                cards.push({
+                    type: 'food',
+                    id: index,
+                    name: pair.food.name[currentLanguage],
+                    image: pair.food.image,
+                    pairId: index
+                });
+            });
+            
+            // Create nutrient cards
+            roundPairs.forEach((pair, index) => {
+                cards.push({
+                    type: 'nutrient',
+                    id: index + roundPairs.length,
+                    name: pair.nutrient.type[currentLanguage],
+                    benefit: pair.nutrient.benefit[currentLanguage],
+                    pairId: index
+                });
+            });
+            
+            // Shuffle the cards (Fisher-Yates algorithm)
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            
+            // Create the card elements
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.dataset.id = card.id;
+                cardElement.dataset.pairId = card.pairId;
+                cardElement.dataset.type = card.type;
+                
+                // Card front (content)
+                const cardFront = document.createElement('div');
+                cardFront.className = 'card-front';
+                
+                if (card.type === 'food') {
+                    const img = document.createElement('img');
+                    img.src = card.image;
+                    img.alt = card.name;
+                    img.onerror = function() {
+                        // If image fails to load, show a placeholder with text
+                        this.style.display = 'none';
+                        const placeholder = document.createElement('div');
+                        placeholder.textContent = card.name;
+                        placeholder.style.fontSize = '0.9rem';
+                        placeholder.style.padding = '5px';
+                        placeholder.style.textAlign = 'center';
+                        cardFront.appendChild(placeholder);
+                    };
+                    cardFront.appendChild(img);
+                } else {
+                    cardFront.className += ' nutrient-card';
+                    cardFront.innerHTML = `
+                        <div class="nutrient-type">${card.name}</div>
+                        <div class="nutrient-benefit">${card.benefit}</div>
+                    `;
+                }
+                
+                // Card back (question mark)
+                const cardBack = document.createElement('div');
+                cardBack.className = 'card-back';
+                cardBack.innerHTML = '<i class="fas fa-question"></i>';
+                
+                cardElement.appendChild(cardFront);
+                cardElement.appendChild(cardBack);
+                
+                // Add click event
+                cardElement.addEventListener('click', () => flipCard(cardElement));
+                
+                cardsGrid.appendChild(cardElement);
+            });
+        }
+
+        // Flip a card
+        function flipCard(card) {
+            // If we can't flip or card is already flipped/matched, return
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) {
+                return;
+            }
+            
+            // Flip the card
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            
+            // If two cards are flipped, check for a match
+            if (flippedCards.length === 2) {
+                canFlip = false;
+                setTimeout(checkMatch, 700);
+            }
+        }
+
+        // Check if the flipped cards match
+        function checkMatch() {
+            const card1 = flippedCards[0];
+            const card2 = flippedCards[1];
+            
+            // Check if cards have the same pairId (they match)
+            if (card1.dataset.pairId === card2.dataset.pairId) {
+                // Correct match
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                
+                // Add to score
+                score += 15;
+                matchedPairs++;
+                updateScore();
+                
+                // Show educational information
+                const pairData = gameData[currentRound].pairs[card1.dataset.pairId];
+                showEducationalInfo(pairData);
+                
+                // Check if all pairs are matched
+                if (matchedPairs >= totalPairs) {
+                    setTimeout(completeLevel, 1000);
+                }
+            } else {
+                // Wrong match
+                card1.classList.add('shake');
+                card2.classList.add('shake');
+                
+                // Deduct time
+                timeLeft = Math.max(0, timeLeft - 5);
+                updateTimerDisplay();
+                
+                // Flip cards back after a delay
+                setTimeout(() => {
+                    card1.classList.remove('flipped', 'shake');
+                    card2.classList.remove('flipped', 'shake');
+                }, 700);
+            }
+            
+            // Reset flipped cards and allow flipping again
+            flippedCards = [];
+            canFlip = true;
+        }
+
+        // Show educational information when cards match
+        function showEducationalInfo(pairData) {
+            modalTitle.textContent = currentLanguage === 'en' ? 'Correct Match!' : 'ଠିକ୍ ମ୍ୟାଚ୍!';
+            modalText.textContent = currentLanguage === 'en' 
+                ? `Great job! You've correctly matched ${pairData.food.name.en} with ${pairData.nutrient.type.en}.` 
+                : `ବଢିଆ କାମ! ଆପଣ ${pairData.food.name.or}କୁ ${pairData.nutrient.type.or} ସହିତ ସଠିକ୍ ଭାବରେ ମିଳାଇଛନ୍ତି |`;
+            
+            factText.textContent = pairData.fact[currentLanguage];
+            
+            // Store the current pair data for audio playback
+            educationalModal.dataset.pairId = pairData;
+            
+            educationalModal.style.display = 'flex';
+        }
+
+        // Play audio for the current fact
+        function playAudio(lang) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+            }
+            
+            const pairData = educationalModal.dataset.pairId;
+            if (pairData && pairData.audio && pairData.audio[lang]) {
+                currentAudio = new Audio(pairData.audio[lang]);
+                currentAudio.play().catch(e => {
+                    console.log("Audio playback failed:", e);
+                    // Fallback to text-to-speech if audio file is not available
+                    speakText(lang, pairData);
+                });
+            } else {
+                // Fallback to text-to-speech
+                speakText(lang, pairData);
+            }
+        }
+
+        // Text-to-speech fallback
+        function speakText(lang, pairData) {
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.lang = lang === 'en' ? 'en-US' : 'or-IN';
+                
+                if (lang === 'en') {
+                    speech.text = `${pairData.food.name.en} provides ${pairData.nutrient.type.en} which helps with ${pairData.nutrient.benefit.en}. ${pairData.fact.en}`;
+                } else {
+                    speech.text = `${pairData.food.name.or} ${pairData.nutrient.type.or} ଯୋଗାଏ ଯାହା ${pairData.nutrient.benefit.or} ରେ ସହାୟକ ହୋଇଥାଏ। ${pairData.fact.or}`;
+                }
+                
+                window.speechSynthesis.cancel(); // Cancel any ongoing speech
+                window.speechSynthesis.speak(speech);
+            }
+        }
+
+        // Close the modal
+        function closeModal() {
+            // Stop any audio that might be playing
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+            
+            // Stop any speech synthesis
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            
+            educationalModal.style.display = 'none';
+        }
+
+        // Show a hint to the player
+        function showHint() {
+            // Find an unmatched pair
+            const allCards = document.querySelectorAll('.card:not(.matched)');
+            const unmatchedFoods = [];
+            const unmatchedNutrients = [];
+            
+            allCards.forEach(card => {
+                if (card.dataset.type === 'food') {
+                    unmatchedFoods.push(card);
+                } else {
+                    unmatchedNutrients.push(card);
+                }
+            });
+            
+            if (unmatchedFoods.length > 0 && unmatchedNutrients.length > 0) {
+                // Briefly show a hint by flipping a random food and nutrient card
+                const randomFood = unmatchedFoods[Math.floor(Math.random() * unmatchedFoods.length)];
+                const randomNutrient = unmatchedNutrients[Math.floor(Math.random() * unmatchedNutrients.length)];
+                
+                randomFood.classList.add('flipped');
+                randomNutrient.classList.add('flipped');
+                
+                setTimeout(() => {
+                    randomFood.classList.remove('flipped');
+                    randomNutrient.classList.remove('flipped');
+                }, 1500);
+            }
+        }
+
+        // Reset the game
+        function resetGame() {
+            startRound(currentRound);
+        }
+
+        // Complete the level
+        function completeLevel() {
+            clearInterval(timerInterval);
+            
+            // Add time bonus if completed under 5 minutes
+            if (timeLeft > 120) { // 420 - 300 = 120 seconds remaining
+                score += 25;
+                levelText.textContent = currentLanguage === 'en' 
+                    ? `Excellent! You completed the round with time to spare! +25 bonus points! Total score: ${score}` 
+                    : `ଅତ୍ୟୁତ୍ତମ! ଆପଣ ଅତିରିକ୍ତ ସମୟ ସହିତ ରାଉଣ୍ଡ୍ ସମାପ୍ତ କରିଛନ୍ତି! +25 ବୋନସ୍ ପଏଣ୍ଟ୍! ମୋଟ ସ୍କୋର: ${score}`;
+            } else {
+                levelText.textContent = currentLanguage === 'en' 
+                    ? `Congratulations! You've matched all pairs correctly. Total score: ${score}` 
+                    : `ଅଭିନନ୍ଦନ! ଆପଣ ସମସ୍ତ ଯୋଡି ସଠିକ୍ ଭାବରେ ମିଳାଇଛନ୍ତି | ମୋଟ ସ୍କୋର: ${score}`;
+            }
+            
+            updateScore();
+            levelComplete.style.display = 'block';
+        }
+
+        // Go to next level
+        function goToNextLevel() {
+            const rounds = Object.keys(gameData);
+            const currentIndex = rounds.indexOf(currentRound);
+            
+            if (currentIndex < rounds.length - 1) {
+                startRound(rounds[currentIndex + 1]);
+            } else {
+                // All rounds completed
+                if (score >= 70) { // 70% of maximum possible score
+                    alert(currentLanguage === 'en' 
+                        ? 'Congratulations! You\'ve completed all rounds and earned the Memory Master badge! 🧠' 
+                        : 'ଅଭିନନ୍ଦନ! ଆପଣ ସମସ୍ତ ରାଉଣ୍ଡ୍ ସମାପ୍ତ କରିଛନ୍ତି ଏବଂ ମେମୋରୀ ମାଷ୍ଟର ବ୍ୟାଜ୍ ଅର୍ଜନ କରିଛନ୍ତି! 🧠');
+                } else {
+                    alert(currentLanguage === 'en' 
+                        ? 'You need a score of at least 70% to unlock the next level. Try again!' 
+                        : 'ପରବର୍ତ୍ତୀ ସ୍ତର ଅନଲକ୍ କରିବା ପାଇଁ ଆପଣଙ୍କୁ ଅítୟନ୍ତ 70% ସ୍କୋର ଆବଶ୍ୟକ | ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ!');
+                }
+                startRound('round1'); // Restart from beginning
+            }
+        }
+
+        // Update round information
+        function updateRoundInfo() {
+            roundTitle.textContent = gameData[currentRound].name[currentLanguage];
+            roundDescription.textContent = gameData[currentRound].description[currentLanguage];
+        }
+
+        // Update score display
+        function updateScore() {
+            const maxScore = totalPairs * 15 + 25; // 15 per pair + possible time bonus
+            const scoreText = currentLanguage === 'en' 
+                ? `Score: ${score}/${maxScore}` 
+                : `ସ୍କୋର: ${score}/${maxScore}`;
+                
+            scoreElement.textContent = scoreText;
+            progressElement.style.width = `${(score / maxScore) * 100}%`;
+        }
+
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Switch language function
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            langButtons.forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update all text content
+            Object.keys(translations[lang]).forEach(key => {
+                const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+                elements.forEach(element => {
+                    element.textContent = translations[lang][key];
+                });
+            });
+            
+            // Update round info
+            updateRoundInfo();
+            
+            // Update score display
+            updateScore();
+            
+            // Add Odia font class for Odia text
+            if (lang === 'or') {
+                document.body.classList.add('odia-text');
+            } else {
+                document.body.classList.remove('odia-text');
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class 6 Science Index - Government of Odisha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo i {
+            font-size: 32px;
+            color: #3182ce;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .language-toggle {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .toggle-btn {
+            background: #38b2ac;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toggle-btn:hover {
+            background: #2c9a94;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1a365d;
+            font-size: 2rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .page-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #38b2ac;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        
+        .index-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            background: linear-gradient(to right, #3182ce, #38b2ac);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .card-content {
+            padding: 25px;
+        }
+        
+        .chapter-list {
+            list-style-type: none;
+        }
+        
+        .chapter-item {
+            padding: 14px 15px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            transition: background 0.2s ease;
+            border-radius: 8px;
+        }
+        
+        .chapter-item:hover {
+            background: #f8fafc;
+        }
+        
+        .chapter-item:last-child {
+            border-bottom: none;
+        }
+        
+        .chapter-item i {
+            margin-right: 12px;
+            color: #3182ce;
+            font-size: 1.1rem;
+            width: 25px;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #3182ce;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .btn:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-view {
+            background: #38b2ac;
+        }
+        
+        .btn-view:hover {
+            background: #2c9a94;
+        }
+        
+        .card-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            border-top: 1px solid #f1f5f9;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            color: #64748b;
+            font-size: 0.9rem;
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        /* Odia language styling */
+        .odia {
+            display: none;
+            font-family: 'Kalinga', 'Nirmala UI', sans-serif;
+        }
+        
+        .odia .chapter-item {
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .index-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <i class="fas fa-atom"></i>
+                </div>
+                <div>
+                    <h1>Government of Odisha</h1>
+                    <div class="subtitle">STEM Subjects : Science & Mathematics</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="page-title">Class 6 Science Index</h2>
+        
+        <div class="language-toggle">
+            <button class="toggle-btn" id="languageToggle">
+                <i class="fas fa-language"></i> <span class="english">Switch to Odia</span><span class="odia">ଇଂରାଜୀକୁ ବଦଳାନ୍ତୁ</span>
+            </button>
+        </div>
+        
+        <div class="index-container">
+            <!-- Topic 1 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">1. Food</span>
+                    <span class="odia">୧. ଖାଦ୍ୟ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-utensils"></i> 1.1. Source of food</li>
+                        <li class="chapter-item"><i class="fas fa-list"></i> 1.2. Classification of food</li>
+                        <li class="chapter-item"><i class="fas fa-microscope"></i> 1.3. Identification of food products</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-utensils"></i> ୧.୧. ଖାଦ୍ୟର ଉତ୍ସ</li>
+                        <li class="chapter-item"><i class="fas fa-list"></i> ୧.୨. ଖାଦ୍ୟର ଶ୍ରେଣୀବିଭାଗ</li>
+                        <li class="chapter-item"><i class="fas fa-microscope"></i> ୧.୩. ଖାଦ୍ୟ ଉତ୍ପାଦର ଚିହ୍ନଟ</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="science.html" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 2 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">2. Objects & Materials</span>
+                    <span class="odia">୨. ବସ୍ତୁ ଏବଂ ପଦାର୍ଥ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-box"></i> 2.1. Items used in daily life</li>
+                        <li class="chapter-item"><i class="fas fa-shapes"></i> 2.2. Object type discrimination</li>
+                        <li class="chapter-item"><i class="fas fa-exchange-alt"></i> 2.3. Changes in matter and substance</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-box"></i> ୨.୧. ଦ daily ନନ୍ଦିନ ଜୀବନରେ ବ୍ୟବହୃତ ଜିନିଷ</li>
+                        <li class="chapter-item"><i class="fas fa-shapes"></i> ୨.୨. ବସ୍ତୁ ପ୍ରକାର ପାର୍ଥକ୍ୟ</li>
+                        <li class="chapter-item"><i class="fas fa-exchange-alt"></i> ୨.୩. ପଦାର୍ଥ ଏବଂ ବସ୍ତୁର ପରିବର୍ତ୍ତନ</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 3 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">3. Living things</span>
+                    <span class="odia">୩. ଜୀବଜଗତ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-leaf"></i> 3.1. Living and non living things</li>
+                        <li class="chapter-item"><i class="fas fa-map-marker-alt"></i> 3.2. Location</li>
+                        <li class="chapter-item"><i class="fas fa-brain"></i> 3.3. Structure & function of various parts of body</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-leaf"></i> ୩.୧. ଜୀବିତ ଏବଂ ନିର୍ଜୀବ ବସ୍ତୁ</li>
+                        <li class="chapter-item"><i class="fas fa-map-marker-alt"></i> ୩.୨. ଅବସ୍ଥାନ</li>
+                        <li class="chapter-item"><i class="fas fa-brain"></i> ୩.୩. ଶରୀରର ବିଭିନ୍ନ ଅଂଶର ଗଠନ ଏବଂ କାର୍ଯ୍ୟ</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 4 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">4. Moving objects</span>
+                    <span class="odia">୪. ଗତିଶୀଳ ବସ୍ତୁ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-ruler"></i> 4.1. Measure of length and distance</li>
+                        <li class="chapter-item"><i class="fas fa-tachometer-alt"></i> 4.2. Speed</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-ruler"></i> ୪.୧. ଦ length ର୍ଘ୍ୟ ଏବଂ ଦୂରତାର ମାପ</li>
+                        <li class="chapter-item"><i class="fas fa-tachometer-alt"></i> ୪.୨. ଗତି</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 5 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">5. How Objects work</span>
+                    <span class="odia">୫. ବସ୍ତୁ କିପରି କାମ କରେ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-bolt"></i> 5.1. Electricity</li>
+                        <li class="chapter-item"><i class="fas fa-magnet"></i> 5.2. Magnet</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-bolt"></i> ୫.୧. ବିଦ୍ୟୁତ୍</li>
+                        <li class="chapter-item"><i class="fas fa-magnet"></i> ୫.୨. ଚୁମ୍ବକ</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 6 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">6. Natural phenomenon</span>
+                    <span class="odia">୬. ପ୍ରାକୃତିକ ଘଟଣା</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-cloud-sun"></i> 6.1. Natural phenomenon</li>
+                        <li class="chapter-item"><i class="fas fa-sun"></i> 6.2. Light</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-cloud-sun"></i> ୬.୧. ପ୍ରାକୃତିକ ଘଟଣା</li>
+                        <li class="chapter-item"><i class="fas fa-sun"></i> ୬.୨. ଆଲୋକ</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+
+            <!-- Topic 7 -->
+            <div class="topic-card">
+                <div class="card-header">
+                    <span class="english">7. Natural resources</span>
+                    <span class="odia">୭. ପ୍ରାକୃତିକ ସମ୍ବଳ</span>
+                </div>
+                <div class="card-content">
+                    <ul class="chapter-list english">
+                        <li class="chapter-item"><i class="fas fa-tint"></i> 7.1. Water</li>
+                        <li class="chapter-item"><i class="fas fa-wind"></i> 7.2. The importance of air for living things</li>
+                        <li class="chapter-item"><i class="fas fa-trash"></i> 7.3. Garbage</li>
+                    </ul>
+                    <ul class="chapter-list odia">
+                        <li class="chapter-item"><i class="fas fa-tint"></i> ୭.୧. ଜଳ</li>
+                        <li class="chapter-item"><i class="fas fa-wind"></i> ୭.୨. ଜୀବଜଗତ ପାଇଁ ବାୟୁର ଗୁରୁତ୍ୱ</li>
+                        <li class="chapter-item"><i class="fas fa-trash"></i> ୭.୩. ଆବର୍ଜନା</li>
+                    </ul>
+                </div>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-view"><i class="fas fa-eye"></i> View Topic</a>
+                    <a href="#" class="btn"><i class="fas fa-book"></i> Resources</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Government of Odisha - STEM Education Initiative</p>
+            <p>Designed for Class 6 Science Curriculum</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButton = document.getElementById('languageToggle');
+            const englishElements = document.querySelectorAll('.english');
+            const odiaElements = document.querySelectorAll('.odia');
+            const toggleEnglish = toggleButton.querySelector('.english');
+            const toggleOdia = toggleButton.querySelector('.odia');
+            
+            let isOdia = false;
+            
+            // Initially hide Odia elements
+            englishElements.forEach(el => el.style.display = 'block');
+            odiaElements.forEach(el => el.style.display = 'none');
+            toggleEnglish.style.display = 'inline';
+            toggleOdia.style.display = 'none';
+            
+            toggleButton.addEventListener('click', function() {
+                isOdia = !isOdia;
+                
+                if (isOdia) {
+                    englishElements.forEach(el => el.style.display = 'none');
+                    odiaElements.forEach(el => el.style.display = 'block');
+                    toggleEnglish.style.display = 'none';
+                    toggleOdia.style.display = 'inline';
+                    document.body.classList.add('odia');
+                } else {
+                    englishElements.forEach(el => el.style.display = 'block');
+                    odiaElements.forEach(el => el.style.display = 'none');
+                    toggleEnglish.style.display = 'inline';
+                    toggleOdia.style.display = 'none';
+                    document.body.classList.remove('odia');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

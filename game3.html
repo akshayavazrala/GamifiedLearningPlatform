@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Science Crossword Quest - STEM Learn Odisha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f0f7ff;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: white;
+            color: #2a69ac;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #38b2ac;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.6rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Game Header */
+        .game-header {
+            background: linear-gradient(rgba(14, 42, 71, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Game Stats */
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .timer i {
+            color: #e53e3e;
+        }
+
+        .score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .score i {
+            color: #38a169;
+        }
+
+        .hints {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .hints i {
+            color: #d69e2e;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #3182ce;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Game Area */
+        .game-area {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px 0;
+        }
+
+        .crossword-container {
+            flex: 1;
+            min-width: 500px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .clues-container {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-left: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(15, 1fr);
+            gap: 2px;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .cell {
+            width: 100%;
+            aspect-ratio: 1/1;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            background: white;
+            position: relative;
+        }
+
+        .cell.filled {
+            background: #f0f4ff;
+        }
+
+        .cell.selected {
+            background: #d6e4ff;
+            border: 2px solid #4a6572;
+        }
+
+        .cell.error {
+            background: #ffe6e6;
+            animation: shake 0.5s;
+        }
+
+        .cell-number {
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            font-size: 0.6rem;
+            color: #4a6572;
+        }
+
+        input.cell-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: transparent;
+            outline: none;
+        }
+
+        .clues-section {
+            margin-bottom: 20px;
+        }
+
+        .clues-title {
+            font-size: 1.3rem;
+            color: #4a6572;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #4a6572;
+        }
+
+        .clue {
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .clue:hover {
+            background: #e9ecef;
+        }
+
+        .clue.selected {
+            background: #d6e4ff;
+            font-weight: bold;
+        }
+
+        .clue-number {
+            font-weight: bold;
+            margin-right: 8px;
+            color: #4a6572;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            margin-top: 20px;
+        }
+
+        .control-btn {
+            padding: 12px 25px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: #2b6cb0;
+            transform: translateY(-2px);
+        }
+
+        .control-btn.hint {
+            background: #d69e2e;
+        }
+
+        .control-btn.hint:hover {
+            background: #b3821e;
+        }
+
+        .control-btn.reset {
+            background: #e53e3e;
+        }
+
+        .control-btn.reset:hover {
+            background: #c53030;
+        }
+
+        /* Educational Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #48bb78;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a365d;
+        }
+
+        .modal-text {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .did-you-know {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            border-radius: 4px;
+        }
+
+        .did-you-know-title {
+            font-weight: 600;
+            color: #3182ce;
+            margin-bottom: 8px;
+        }
+
+        .modal-action {
+            padding: 12px 25px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action:hover {
+            background: #2c9a94;
+        }
+
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .badge {
+            font-size: 3rem;
+            color: #d69e2e;
+            margin-bottom: 15px;
+        }
+
+        .success-title {
+            font-size: 1.8rem;
+            color: #1a365d;
+            margin-bottom: 15px;
+        }
+
+        .success-text {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .next-btn {
+            padding: 12px 30px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:hover {
+            background: #2c9a94;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about {
+            padding-right: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            font-size: 1.8rem;
+            background: #38b2ac;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            color: #38b2ac;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d3748;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: #38b2ac;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .game-area {
+                flex-direction: column;
+            }
+            
+            .clues-container {
+                margin-left: 0;
+                margin-top: 20px;
+            }
+            
+            .crossword-container {
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .game-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(15, 20px);
+                max-width: 300px;
+            }
+            
+            .cell {
+                font-size: 0.9rem;
+            }
+            
+            input.cell-input {
+                font-size: 1rem;
+            }
+            
+            .cell-number {
+                font-size: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .grid {
+                grid-template-columns: repeat(15, 18px);
+                max-width: 270px;
+            }
+            
+            .cell {
+                font-size: 0.8rem;
+            }
+            
+            input.cell-input {
+                font-size: 0.9rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            10%, 30%, 50%, 70%, 90% {transform: translateX(-5px);}
+            20%, 40%, 60%, 80% {transform: translateX(5px);}
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+            100% {transform: scale(1);}
+        }
+        
+        .pulse {
+            animation: pulse 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="logo-text">STEM <span>Learn</span> Odisha</div>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="home.html" data-translate="nav-home">Home</a></li>
+                        <li><a href="science.html" data-translate="nav-science">Science</a></li>
+                        <li><a href="math.html" data-translate="nav-math">Math</a></li>
+                        <li><a href="teachers.html" data-translate="nav-teachers">Teachers</a></li>
+                        <li><a href="about.html" data-translate="nav-about">About</a></li>
+                        <li><a href="contact.html" data-translate="nav-contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Header -->
+    <section class="game-header">
+        <div class="container">
+            <h1 data-translate="game-title">Food Science Crossword Quest</h1>
+            <p data-translate="game-desc">Test your knowledge of food science and purification concepts with this challenging crossword puzzle!</p>
+        </div>
+    </section>
+
+    <!-- Game Stats -->
+    <div class="container">
+        <div class="game-stats">
+            <div class="timer">
+                <i class="fas fa-clock"></i>
+                <span id="time">10:00</span>
+            </div>
+            
+            <div class="score">
+                <i class="fas fa-star"></i>
+                <span id="score">Score: 0</span>
+            </div>
+            
+            <div class="hints">
+                <i class="fas fa-lightbulb"></i>
+                <span id="hints-left">Hints: 3</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Area -->
+    <section class="game-area">
+        <div class="container">
+            <div class="crossword-container">
+                <div class="grid" id="crossword-grid">
+                    <!-- Crossword grid will be generated by JavaScript -->
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn hint" id="hint-btn">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Use Hint</span>
+                    </button>
+                    <button class="control-btn" id="validate-btn">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Validate All</span>
+                    </button>
+                    <button class="control-btn reset" id="reset-btn">
+                        <i class="fas fa-redo"></i>
+                        <span>Reset Game</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="clues-container">
+                <div class="clues-section">
+                    <h3 class="clues-title">Across</h3>
+                    <div id="across-clues">
+                        <!-- Across clues will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="clues-section">
+                    <h3 class="clues-title">Down</h3>
+                    <div id="down-clues">
+                        <!-- Down clues will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="success-modal" id="success-modal">
+        <div class="badge">
+            <i class="fas fa-medal"></i>
+        </div>
+        <h2 class="success-title">Puzzle Complete!</h2>
+        <p class="success-text">You've earned the <strong>Crossword Champion</strong> badge!</p>
+        <div class="did-you-know">
+            <div class="did-you-know-title">Summary of Terms</div>
+            <div id="summary">
+                <!-- Summary will be filled by JavaScript -->
+            </div>
+        </div>
+        <p class="success-text">Final Score: <strong id="final-score">0</strong> points</p>
+        <button class="next-btn" id="play-again">Play Again</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="footer-logo-text">STEM Learn Odisha</div>
+                    </div>
+                    <p data-translate="footer-desc">Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="quick-links">Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html"><i class="fas fa-home"></i> <span data-translate="nav-home">Home</span></a></li>
+                        <li><a href="science.html"><i class="fas fa-flask"></i> <span data-translate="nav-science">Science</span></a></li>
+                        <li><a href="math.html"><i class="fas fa-calculator"></i> <span data-translate="nav-math">Math</span></a></li>
+                        <li><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i> <span data-translate="nav-teachers">Teachers</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="contact-us">Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-translate="footer-address">Department of Education, Bhubaneswar</span></a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 674 123 4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@stemlearnodisha.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p data-translate="copyright">© 2023 STEM Learn Odisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Game data
+            const crosswordData = {
+                clues: {
+                    across: [
+                        { number: 1, clue: "Process of heating milk to kill harmful bacteria.", answer: "PASTEURIZATION", row: 1, col: 2 },
+                        { number: 5, clue: "Method of separating solids from liquids by passing through a porous medium.", answer: "FILTRATION", row: 3, col: 6 },
+                        { number: 7, clue: "Essential nutrients needed in small amounts like calcium and iron.", answer: "MICRONUTRIENTS", row: 5, col: 2 },
+                        { number: 8, clue: "Organic compounds that provide energy: starches and sugars.", answer: "CARBOHYDRATE", row: 6, col: 7 },
+                        { number: 9, clue: "Building blocks of body tissues made of amino acids.", answer: "PROTEIN", row: 7, col: 9 },
+                        { number: 10, clue: "Biological process used to produce yogurt and cheese.", answer: "FERMENTATION", row: 8, col: 3 },
+                        { number: 12, clue: "Micronutrient that acts as a coenzyme, e.g., Vitamin C.", answer: "VITAMINS", row: 10, col: 8 },
+                        { number: 14, clue: "Water plus sugar solution heated to remove moisture and make crystals.", answer: "EVAPORATION", row: 12, col: 4 },
+                        { number: 16, clue: "The presence of harmful substances in food.", answer: "CONTAMINATION", row: 13, col: 2 },
+                        { number: 18, clue: "A method of preserving food by removing water.", answer: "DEHYDRATION", row: 14, col: 5 }
+                    ],
+                    down: [
+                        { number: 2, clue: "Removal of sediments from water by allowing them to settle.", answer: "SEDIMENTATION", row: 1, col: 4 },
+                        { number: 3, clue: "A type of sugar commonly used in food.", answer: "SUCROSE", row: 1, col: 8 },
+                        { number: 4, clue: "A substance that helps to maintain pH balance in foods.", answer: "BUFFER", row: 1, col: 12 },
+                        { number: 5, clue: "The process of breaking down food into smaller components.", answer: "DIGESTION", row: 3, col: 6 },
+                        { number: 6, clue: "A type of fat that is solid at room temperature.", answer: "SATURATED", row: 4, col: 10 },
+                        { number: 11, clue: "A method of cooking using dry heat.", answer: "BAKING", row: 9, col: 5 },
+                        { number: 13, clue: "A substance that can cause an allergic reaction.", answer: "ALLERGEN", row: 11, col: 1 },
+                        { number: 15, clue: "A natural sugar found in fruits.", answer: "FRUCTOSE", row: 12, col: 14 },
+                        { number: 17, clue: "A chemical used to kill harmful microorganisms.", answer: "ANTISEPTIC", row: 13, col: 9 },
+                        { number: 19, clue: "A common food preservative.", answer: "SORBATE", row: 14, col: 11 }
+                    ]
+                },
+                definitions: {
+                    "PASTEURIZATION": "The process of heating food, especially milk, to a specific temperature for a fixed time to kill pathogens and extend shelf life.",
+                    "FILTRATION": "A physical process that separates solids from fluids by adding a medium through which only the fluid can pass.",
+                    "MICRONUTRIENTS": "Essential elements required by organisms in small quantities throughout life to orchestrate a range of physiological functions.",
+                    "CARBOHYDRATE": "Biological molecules consisting of carbon, hydrogen, and oxygen atoms, serving as a major energy source in foods.",
+                    "PROTEIN": "Large biomolecules consisting of one or more long chains of amino acid residues, essential for body building and repair.",
+                    "FERMENTATION": "A metabolic process that produces chemical changes in organic substrates through the action of enzymes, often used in food production.",
+                    "VITAMINS": "Organic compounds that are essential for normal growth and nutrition and are required in small quantities in the diet.",
+                    "EVAPORATION": "The process of a substance in a liquid state changing to a gaseous state due to an increase in temperature or pressure.",
+                    "CONTAMINATION": "The presence of harmful substances or organisms in food that can cause illness or spoilage.",
+                    "DEHYDRATION": "The process of removing water from food to inhibit the growth of microorganisms and slow down spoilage.",
+                    "SEDIMENTATION": "The process of allowing particles in suspension in water to settle out under the effect of gravity.",
+                    "SUCROSE": "A disaccharide composed of glucose and fructose, commonly known as table sugar.",
+                    "BUFFER": "A solution that resists changes in pH when acid or alkali is added to it, important in food processing.",
+                    "DIGESTION": "The breakdown of large insoluble food molecules into small water-soluble molecules so they can be absorbed into the blood plasma.",
+                    "SATURATED": "A type of fat with fatty acid chains lacking double bonds, typically solid at room temperature.",
+                    "BAKING": "A method of cooking food that uses prolonged dry heat, normally in an oven.",
+                    "ALLERGEN": "A substance that causes an allergic reaction in some individuals, such as peanuts or shellfish.",
+                    "FRUCTOSE": "A simple sugar found in many plants, often called fruit sugar.",
+                    "ANTISEPTIC": "Substances that reduce the possibility of infection by killing or inhibiting the growth of microorganisms.",
+                    "SORBATE": "A salt or ester of sorbic acid, used as a preservative in food and drinks to inhibit mold growth."
+                }
+            };
+
+            // Game state
+            let gameState = {
+                grid: Array(15).fill().map(() => Array(15).fill('')),
+                selectedCell: null,
+                selectedDirection: 'across',
+                hintsUsed: 0,
+                score: 0,
+                timeLeft: 600, // 10 minutes in seconds
+                timerInterval: null,
+                completed: false
+            };
+
+            // DOM elements
+            const gridElement = document.getElementById('crossword-grid');
+            const acrossCluesElement = document.getElementById('across-clues');
+            const downCluesElement = document.getElementById('down-clues');
+            const timeElement = document.getElementById('time');
+            const scoreElement = document.getElementById('score');
+            const hintsLeftElement = document.getElementById('hints-left');
+            const progressElement = document.getElementById('progress');
+            const hintButton = document.getElementById('hint-btn');
+            const validateButton = document.getElementById('validate-btn');
+            const resetButton = document.getElementById('reset-btn');
+            const successModal = document.getElementById('success-modal');
+            const finalScoreElement = document.getElementById('final-score');
+            const summaryElement = document.getElementById('summary');
+            const playAgainButton = document.getElementById('play-again');
+
+            // Initialize the game
+            function initGame() {
+                createGrid();
+                renderClues();
+                startTimer();
+                setupEventListeners();
+            }
+
+            // Create the crossword grid
+            function createGrid() {
+                gridElement.innerHTML = '';
+                
+                for (let row = 0; row < 15; row++) {
+                    for (let col = 0; col < 15; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'cell';
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        
+                        // Check if this cell is part of any word
+                        const cellInfo = getCellInfo(row, col);
+                        if (cellInfo) {
+                            if (cellInfo.number) {
+                                const numberSpan = document.createElement('span');
+                                numberSpan.className = 'cell-number';
+                                numberSpan.textContent = cellInfo.number;
+                                cell.appendChild(numberSpan);
+                            }
+                            
+                            const input = document.createElement('input');
+                            input.type = 'text';
+                            input.maxLength = 1;
+                            input.className = 'cell-input';
+                            input.dataset.row = row;
+                            input.dataset.col = col;
+                            cell.appendChild(input);
+                            
+                            // Add filled class for styling
+                            cell.classList.add('filled');
+                        } else {
+                            // Black cell for non-puzzle area
+                            cell.style.backgroundColor = '#333';
+                        }
+                        
+                        gridElement.appendChild(cell);
+                    }
+                }
+            }
+
+            // Get information about a cell (which words pass through it)
+            function getCellInfo(row, col) {
+                for (const direction in crosswordData.clues) {
+                    for (const clue of crosswordData.clues[direction]) {
+                        const clueLength = clue.answer.length;
+                        
+                        if (direction === 'across' && row === clue.row && col >= clue.col && col < clue.col + clueLength) {
+                            return {
+                                number: col === clue.col ? clue.number : null,
+                                clue: clue
+                            };
+                        }
+                        
+                        if (direction === 'down' && col === clue.col && row >= clue.row && row < clue.row + clueLength) {
+                            return {
+                                number: row === clue.row ? clue.number : null,
+                                clue: clue
+                            };
+                        }
+                    }
+                }
+                
+                return null;
+            }
+
+            // Render clues in the side panel
+            function renderClues() {
+                acrossCluesElement.innerHTML = '';
+                downCluesElement.innerHTML = '';
+                
+                // Render across clues
+                crosswordData.clues.across.forEach(clue => {
+                    const clueElement = document.createElement('div');
+                    clueElement.className = 'clue';
+                    clueElement.innerHTML = `<span class="clue-number">${clue.number}.</span> ${clue.clue}`;
+                    clueElement.dataset.number = clue.number;
+                    clueElement.dataset.direction = 'across';
+                    acrossCluesElement.appendChild(clueElement);
+                });
+                
+                // Render down clues
+                crosswordData.clues.down.forEach(clue => {
+                    const clueElement = document.createElement('div');
+                    clueElement.className = 'clue';
+                    clueElement.innerHTML = `<span class="clue-number">${clue.number}.</span> ${clue.clue}`;
+                    clueElement.dataset.number = clue.number;
+                    clueElement.dataset.direction = 'down';
+                    downCluesElement.appendChild(clueElement);
+                });
+            }
+
+            // Start the game timer
+            function startTimer() {
+                clearInterval(gameState.timerInterval);
+                
+                gameState.timerInterval = setInterval(() => {
+                    gameState.timeLeft--;
+                    
+                    const minutes = Math.floor(gameState.timeLeft / 60);
+                    const seconds = gameState.timeLeft % 60;
+                    
+                    timeElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    // Update progress bar
+                    const progressPercent = (600 - gameState.timeLeft) / 600 * 100;
+                    progressElement.style.width = `${progressPercent}%`;
+                    
+                    if (gameState.timeLeft <= 0) {
+                        clearInterval(gameState.timerInterval);
+                        if (!gameState.completed) {
+                            validateAll();
+                        }
+                    }
+                }, 1000);
+            }
+
+            // Set up event listeners
+            function setupEventListeners() {
+                // Cell input focus
+                gridElement.addEventListener('click', (e) => {
+                    const cellInput = e.target.closest('.cell-input');
+                    if (cellInput) {
+                        selectCell(parseInt(cellInput.dataset.row), parseInt(cellInput.dataset.col));
+                    }
+                });
+                
+                // Cell input handling
+                gridElement.addEventListener('input', (e) => {
+                    if (e.target.classList.contains('cell-input')) {
+                        const row = parseInt(e.target.dataset.row);
+                        const col = parseInt(e.target.dataset.col);
+                        const value = e.target.value.toUpperCase();
+                        
+                        // Update game state
+                        gameState.grid[row][col] = value;
+                        
+                        // Move to next cell if a letter was entered
+                        if (value) {
+                            moveToNextCell(row, col);
+                        }
+                        
+                        // Check if the puzzle is complete
+                        checkCompletion();
+                    }
+                });
+                
+                // Keyboard navigation
+                gridElement.addEventListener('keydown', (e) => {
+                    if (e.target.classList.contains('cell-input')) {
+                        const row = parseInt(e.target.dataset.row);
+                        const col = parseInt(e.target.dataset.col);
+                        
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            moveSelection(row, col + 1);
+                        } else if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            moveSelection(row, col - 1);
+                        } else if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            moveSelection(row + 1, col);
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            moveSelection(row - 1, col);
+                        } else if (e.key === 'Backspace' && !e.target.value) {
+                            e.preventDefault();
+                            moveSelection(row, col - 1);
+                        }
+                    }
+                });
+                
+                // Clue selection
+                acrossCluesElement.addEventListener('click', (e) => {
+                    const clueElement = e.target.closest('.clue');
+                    if (clueElement) {
+                        selectClue(clueElement.dataset.number, clueElement.dataset.direction);
+                    }
+                });
+                
+                downCluesElement.addEventListener('click', (e) => {
+                    const clueElement = e.target.closest('.clue');
+                    if (clueElement) {
+                        selectClue(clueElement.dataset.number, clueElement.dataset.direction);
+                    }
+                });
+                
+                // Hint button
+                hintButton.addEventListener('click', useHint);
+                
+                // Validate button
+                validateButton.addEventListener('click', validateAll);
+                
+                // Reset button
+                resetButton.addEventListener('click', resetGame);
+                
+                // Play again button
+                playAgainButton.addEventListener('click', resetGame);
+            }
+
+            // Select a cell
+            function selectCell(row, col) {
+                // Clear previous selection
+                document.querySelectorAll('.cell.selected').forEach(cell => {
+                    cell.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.clue.selected').forEach(clue => {
+                    clue.classList.remove('selected');
+                });
+                
+                // Select new cell
+                const cellElement = document.querySelector(`.cell[data-row="${row}"][data-col="${col}"]`);
+                if (cellElement) {
+                    cellElement.classList.add('selected');
+                    const input = cellElement.querySelector('.cell-input');
+                    if (input) {
+                        input.focus();
+                    }
+                    
+                    gameState.selectedCell = { row, col };
+                    
+                    // Try to determine direction based on the word
+                    const cellInfo = getCellInfo(row, col);
+                    if (cellInfo) {
+                        gameState.selectedDirection = (crosswordData.clues.across.some(c => c.number == cellInfo.clue.number)) ? 'across' : 'down';
+                        
+                        // Highlight the clue
+                        const clueElement = document.querySelector(`.clue[data-number="${cellInfo.clue.number}"][data-direction="${gameState.selectedDirection}"]`);
+                        if (clueElement) {
+                            clueElement.classList.add('selected');
+                        }
+                    }
+                }
+            }
+
+            // Move selection to a specific cell
+            function moveSelection(row, col) {
+                if (row >= 0 && row < 15 && col >= 0 && col < 15) {
+                    const cellInfo = getCellInfo(row, col);
+                    if (cellInfo) {
+                        selectCell(row, col);
+                    }
+                }
+            }
+
+            // Move to next cell after input
+            function moveToNextCell(row, col) {
+                if (gameState.selectedDirection === 'across') {
+                    moveSelection(row, col + 1);
+                } else {
+                    moveSelection(row + 1, col);
+                }
+            }
+
+            // Select a clue
+            function selectClue(number, direction) {
+                gameState.selectedDirection = direction;
+                
+                const clue = crosswordData.clues[direction].find(c => c.number == number);
+                if (clue) {
+                    if (direction === 'across') {
+                        selectCell(clue.row, clue.col);
+                    } else {
+                        selectCell(clue.row, clue.col);
+                    }
+                }
+            }
+
+            // Use a hint
+            function useHint() {
+                if (gameState.hintsUsed >= 3) {
+                    alert('You have used all available hints!');
+                    return;
+                }
+                
+                if (!gameState.selectedCell) {
+                    alert('Please select a cell first!');
+                    return;
+                }
+                
+                const { row, col } = gameState.selectedCell;
+                const cellInfo = getCellInfo(row, col);
+                
+                if (!cellInfo) {
+                    alert('Please select a valid cell!');
+                    return;
+                }
+                
+                const clue = cellInfo.clue;
+                const answer = clue.answer;
+                let position;
+                
+                if (gameState.selectedDirection === 'across') {
+                    position = col - clue.col;
+                } else {
+                    position = row - clue.row;
+                }
+                
+                const correctLetter = answer[position];
+                
+                // Update the grid
+                gameState.grid[row][col] = correctLetter;
+                const input = document.querySelector(`.cell-input[data-row="${row}"][data-col="${col}"]`);
+                if (input) {
+                    input.value = correctLetter;
+                }
+                
+                // Update score and hints
+                gameState.hintsUsed++;
+                gameState.score -= 10;
+                updateUI();
+                
+                // Move to next cell
+                moveToNextCell(row, col);
+                
+                // Check if the puzzle is complete
+                checkCompletion();
+            }
+
+            // Validate all answers
+            function validateAll() {
+                let allCorrect = true;
+                
+                for (const direction in crosswordData.clues) {
+                    for (const clue of crosswordData.clues[direction]) {
+                        const clueLength = clue.answer.length;
+                        let correct = true;
+                        
+                        for (let i = 0; i < clueLength; i++) {
+                            let row, col;
+                            
+                            if (direction === 'across') {
+                                row = clue.row;
+                                col = clue.col + i;
+                            } else {
+                                row = clue.row + i;
+                                col = clue.col;
+                            }
+                            
+                            const correctLetter = clue.answer[i];
+                            const currentLetter = gameState.grid[row][col];
+                            
+                            if (currentLetter !== correctLetter) {
+                                correct = false;
+                                allCorrect = false;
+                                
+                                // Highlight incorrect cells
+                                const input = document.querySelector(`.cell-input[data-row="${row}"][data-col="${col}"]`);
+                                if (input) {
+                                    input.parentElement.classList.add('error');
+                                    setTimeout(() => {
+                                        input.parentElement.classList.remove('error');
+                                    }, 1000);
+                                }
+                            }
+                        }
+                        
+                        // If the word is correct, add points
+                        if (correct) {
+                            gameState.score += 20;
+                        }
+                    }
+                }
+                
+                updateUI();
+                
+                if (allCorrect) {
+                    gameState.completed = true;
+                    clearInterval(gameState.timerInterval);
+                    
+                    // Add time bonus if completed under 7 minutes
+                    if (gameState.timeLeft > 180) { // 600 - 420 = 180 seconds remaining
+                        gameState.score += 100;
+                    }
+                    
+                    showSuccessModal();
+                }
+                
+                return allCorrect;
+            }
+
+            // Check if the puzzle is complete
+            function checkCompletion() {
+                for (let row = 0; row < 15; row++) {
+                    for (let col = 0; col < 15; col++) {
+                        const cellInfo = getCellInfo(row, col);
+                        if (cellInfo && !gameState.grid[row][col]) {
+                            return false;
+                        }
+                    }
+                }
+                
+                return validateAll();
+            }
+
+            // Update UI elements
+            function updateUI() {
+                scoreElement.textContent = `Score: ${gameState.score}`;
+                hintsLeftElement.textContent = `Hints: ${3 - gameState.hintsUsed}`;
+                
+                if (gameState.hintsUsed >= 3) {
+                    hintButton.disabled = true;
+                }
+            }
+
+            // Show success modal
+            function showSuccessModal() {
+                finalScoreElement.textContent = gameState.score;
+                
+                // Generate summary
+                let summaryHTML = '<ul>';
+                for (const direction in crosswordData.clues) {
+                    for (const clue of crosswordData.clues[direction]) {
+                        summaryHTML += `<li><strong>${clue.answer}:</strong> ${crosswordData.definitions[clue.answer]}</li>`;
+                    }
+                }
+                summaryHTML += '</ul>';
+                
+                summaryElement.innerHTML = summaryHTML;
+                successModal.style.display = 'block';
+            }
+
+            // Reset the game
+            function resetGame() {
+                gameState = {
+                    grid: Array(15).fill().map(() => Array(15).fill('')),
+                    selectedCell: null,
+                    selectedDirection: 'across',
+                    hintsUsed: 0,
+                    score: 0,
+                    timeLeft: 600,
+                    timerInterval: null,
+                    completed: false
+                };
+                
+                // Clear inputs
+                document.querySelectorAll('.cell-input').forEach(input => {
+                    input.value = '';
+                });
+                
+                // Remove selections
+                document.querySelectorAll('.cell.selected').forEach(cell => {
+                    cell.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.clue.selected').forEach(clue => {
+                    clue.classList.remove('selected');
+                });
+                
+                // Hide modal
+                successModal.style.display = 'none';
+                
+                // Update UI and restart timer
+                updateUI();
+                startTimer();
+            }
+
+            // Initialize the game
+            initGame();
+        });
+    </script>
+</body>
+</html>

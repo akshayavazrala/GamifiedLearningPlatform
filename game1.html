@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Detective - STEM Learn Odisha</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f0f7ff;
+            color: #1e293b;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            gap: 5px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .lang-btn.active {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            font-size: 2.2rem;
+            background: white;
+            color: #2a69ac;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text span {
+            color: #38b2ac;
+            font-weight: 800;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 1.05rem;
+        }
+
+        nav a:hover, nav a.active {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.6rem;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Game Header */
+        .game-header {
+            background: linear-gradient(rgba(14, 42, 71, 0.85), rgba(26, 54, 93, 0.9)), url('https://images.unsplash.com/photo-1593118247619-e2d6f056869e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .game-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Game Stats */
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .timer i {
+            color: #e53e3e;
+        }
+
+        .score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .score i {
+            color: #38a169;
+        }
+
+        .progress-container {
+            width: 200px;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #3182ce;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Game Area */
+        .game-area {
+            padding: 30px 0 50px;
+        }
+
+        .game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .drop-zone {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            border: 3px dashed #cbd5e0;
+            transition: all 0.3s ease;
+        }
+
+        .drop-zone.highlight {
+            border-color: #4299e1;
+            background-color: #ebf8ff;
+        }
+
+        .drop-zone.correct {
+            border-color: #48bb78;
+            background-color: #f0fff4;
+        }
+
+        .drop-zone.incorrect {
+            border-color: #f56565;
+            background-color: #fff5f5;
+        }
+
+        .zone-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .zone-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .plant-icon {
+            background: #48bb78;
+            color: white;
+        }
+
+        .animal-icon {
+            background: #dd6b20;
+            color: white;
+        }
+
+        .zone-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        .zone-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            min-height: 200px;
+            align-content: flex-start;
+        }
+
+        /* Food Items */
+        .food-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .food-item {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .food-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .food-item:active {
+            cursor: grabbing;
+        }
+
+        .food-item.dragging {
+            opacity: 0.5;
+        }
+
+        .food-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .food-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Feedback Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            text-align: center;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .correct-icon {
+            color: #48bb78;
+        }
+
+        .incorrect-icon {
+            color: #f56565;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #1a365d;
+        }
+
+        .modal-text {
+            color: #64748b;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .audio-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .audio-btn {
+            padding: 10px 20px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:hover {
+            background: #2b6cb0;
+        }
+
+        .audio-btn.playing {
+            background: #2c9a94;
+        }
+
+        .modal-action {
+            padding: 12px 25px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-action:hover {
+            background: #2c9a94;
+        }
+
+        /* Level Complete */
+        .level-complete {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 30px auto;
+        }
+
+        .badge {
+            font-size: 3rem;
+            color: #d69e2e;
+            margin-bottom: 15px;
+        }
+
+        .level-title {
+            font-size: 1.8rem;
+            color: #1a365d;
+            margin-bottom: 15px;
+        }
+
+        .level-text {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .next-level-btn {
+            padding: 12px 30px;
+            background: #38b2ac;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .next-level-btn:hover {
+            background: #2c9a94;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0e2a47 0%, #1a365d 100%);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-about {
+            padding-right: 20px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo-icon {
+            font-size: 1.8rem;
+            background: #38b2ac;
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-text {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .footer-about p {
+            color: #cbd5e1;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            color: #38b2ac;
+            font-size: 1.2rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2d3748;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-links a:hover {
+            background: #38b2ac;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .game-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .food-items {
+                gap: 15px;
+            }
+            
+            .food-item {
+                width: 85px;
+                height: 85px;
+            }
+            
+            .language-switcher {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 15px;
+                justify-content: center;
+                background: transparent;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .game-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .food-item {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .food-icon {
+                font-size: 1.8rem;
+            }
+            
+            .food-name {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Odia font support */
+        .odia-text {
+            font-family: 'Kalinga', 'Nirmala UI', 'Segoe UI', sans-serif;
+        }
+
+        /* Animations */
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        
+        .bounce {
+            animation: bounce 1s;
+        }
+        
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.05);}
+            100% {transform: scale(1);}
+        }
+        
+        .pulse {
+            animation: pulse 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="or">ଓଡ଼ିଆ</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <div class="logo-text">STEM <span>Learn</span> Odisha</div>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="home.html" data-translate="nav-home">Home</a></li>
+                        <li><a href="science.html" data-translate="nav-science">Science</a></li>
+                        <li><a href="math.html" data-translate="nav-math">Math</a></li>
+                        <li><a href="teachers.html" data-translate="nav-teachers">Teachers</a></li>
+                        <li><a href="about.html" data-translate="nav-about">About</a></li>
+                        <li><a href="contact.html" data-translate="nav-contact">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Header -->
+    <section class="game-header">
+        <div class="container">
+            <h1 data-translate="game-title">Food Detective</h1>
+            <p data-translate="game-desc">Discover where your food comes from! Drag each food item to its correct source.</p>
+        </div>
+    </section>
+
+    <!-- Game Stats -->
+    <div class="container">
+        <div class="game-stats">
+            <div class="timer">
+                <i class="fas fa-clock"></i>
+                <span id="time">03:00</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress" style="width: 0%"></div>
+            </div>
+            
+            <div class="score">
+                <i class="fas fa-star"></i>
+                <span id="score" data-translate="score-text">Score: 0/120</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Area -->
+    <section class="game-area">
+        <div class="container">
+            <div class="game-container">
+                <div class="drop-zone" id="plant-zone">
+                    <div class="zone-header">
+                        <div class="zone-icon plant-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h2 class="zone-title" data-translate="plant-source">Plant Sources</h2>
+                    </div>
+                    <div class="zone-items" id="plant-items"></div>
+                </div>
+                
+                <div class="drop-zone" id="animal-zone">
+                    <div class="zone-header">
+                        <div class="zone-icon animal-icon">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <h2 class="zone-title" data-translate="animal-source">Animal Sources</h2>
+                    </div>
+                    <div class="zone-items" id="animal-items"></div>
+                </div>
+            </div>
+            
+            <div class="food-items" id="food-items">
+                <!-- Food items will be generated by JavaScript -->
+            </div>
+            
+            <div class="level-complete" id="level-complete">
+                <div class="badge">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h2 class="level-title" data-translate="level-title">Level Complete!</h2>
+                <p class="level-text" data-translate="level-text">Congratulations! You've identified the food sources correctly.</p>
+                <button class="next-level-btn" data-translate="next-level">Next Level</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Modal -->
+    <div class="modal" id="feedback-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="modal-icon correct-icon" id="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            
+            <h2 class="modal-title" id="modal-title" data-translate="correct-title">Correct!</h2>
+            
+            <p class="modal-text" id="modal-text">Great! Rice comes from plants.</p>
+            
+            <div class="audio-controls">
+                <button class="audio-btn" id="play-english">
+                    <i class="fas fa-volume-up"></i>
+                    <span data-translate="play-english">Play English</span>
+                </button>
+                <button class="audio-btn" id="play-odia">
+                    <i class="fas fa-volume-up"></i>
+                    <span data-translate="play-odia">Play Odia</span>
+                </button>
+            </div>
+            
+            <button class="modal-action" id="modal-action" data-translate="continue-btn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-about">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <div class="footer-logo-text">STEM Learn Odisha</div>
+                    </div>
+                    <p data-translate="footer-desc">Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="quick-links">Quick Links</h3>
+                    <ul>
+                        <li><a href="home.html"><i class="fas fa-home"></i> <span data-translate="nav-home">Home</span></a></li>
+                        <li><a href="science.html"><i class="fas fa-flask"></i> <span data-translate="nav-science">Science</span></a></li>
+                        <li><a href="math.html"><i class="fas fa-calculator"></i> <span data-translate="nav-math">Math</span></a></li>
+                        <li><a href="teachers.html"><i class="fas fa-chalkboard-teacher"></i> <span data-translate="nav-teachers">Teachers</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3 data-translate="contact-us">Contact Us</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-translate="footer-address">Department of Education, Bhubaneswar</span></a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +91 674 123 4567</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@stemlearnodisha.com</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p data-translate="copyright">© 2023 STEM Learn Odisha. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Game data
+        const foodItems = [
+            { id: 1, name: "Rice", icon: "🌾", type: "plant", info: {
+                en: "Rice is a staple food that comes from the rice plant. It is grown in paddy fields and is a major crop in Odisha.",
+                or: "ଚାଉଳ ଏକ ମୁଖ୍ୟ ଖାଦ୍ୟ ଯାହା ଧାନ ଗଛରୁ ମିଳେ। ଏହା ଧାନ କ୍ଷେତ୍ରରେ ଚାଷ କରାଯାଏ ଏବଂ ଓଡ଼ିଶାରେ ଏକ ପ୍ରମୁଖ ଫସଲ ଅଟେ।"
+            }},
+            { id: 2, name: "Milk", icon: "🥛", type: "animal", info: {
+                en: "Milk comes from animals like cows, buffaloes, and goats. It is rich in calcium and protein.",
+                or: "କ୍ଷୀର ଗାଈ, ମଇଁଷି ଏବଂ ଛାଗଳ ଭଳି ପ୍ରାଣୀଙ୍କଠାରୁ ମିଳେ। ଏହା କ୍ୟାଲ୍ସିଅମ୍ ଏବଂ ପ୍ରୋଟିନ୍ରେ ପରିପୂର୍ଣ୍ଣ।"
+            }},
+            { id: 3, name: "Apple", icon: "🍎", type: "plant", info: {
+                en: "Apples grow on apple trees. They are fruits that are good for health and contain vitamins.",
+                or: "ଆପଲ୍ ଆପଲ୍ ଗଛରେ ବ grows ୁଥାଏ। ସେଗୁଡିକ ଫଳ ଯାହା ସ୍ୱାସ୍ଥ୍ୟ ପାଇଁ ଭଲ ଏବଂ ଭିଟାମିନ୍ ଧାରଣ କରେ।"
+            }},
+            { id: 4, name: "Fish", icon: "🐟", type: "animal", info: {
+                en: "Fish are aquatic animals that are caught from rivers, ponds, and seas. They are a good source of protein.",
+                or: "ମାଛ ଜଳଚର ପ୍ରାଣୀ ଯାହାକୁ ନଦୀ, ପୋଖରୀ ଏବଂ ସଞ୍ଚୁଦ୍ରରୁ ଧରାଯାଏ। ସେଗୁଡିକ ପ୍ରୋଟିନ୍ର ଏକ ଭଲ ଉତ୍ସ।"
+            }},
+            { id: 5, name: "Banana", icon: "🍌", type: "plant", info: {
+                en: "Bananas grow on banana plants. They are rich in potassium and provide instant energy.",
+                or: "କଦଳୀ କଦଳୀ ଗଛରେ ବ grows ୁଥାଏ। ସେଗୁଡିକ ପୋଟାସିଅମ୍ରେ ପରିପୂର୍ଣ୍ଣ ଏବଂ ତତକ୍ଷଣାତ୍ ଶକ୍ତି ଯୋଗାନ୍ତୁ।"
+            }},
+            { id: 6, name: "Egg", icon: "🥚", type: "animal", info: {
+                en: "Eggs are laid by birds like hens and ducks. They are a complete food rich in protein.",
+                or: "ଅଣ୍ଡା ମୁରଗୀ ଏବଂ ହଂସ ଭଳି ପକ୍ଷୀଙ୍କ ଦ୍ୱାରା ଦିଆଯାଏ। ସେଗୁଡିକ ଏକ ସମ୍ପୂର୍ଣ୍ଣ ଖାଦ୍ୟ ଯାହା ପ୍ରୋଟିନ୍ରେ ପରିପୂର୍ଣ୍ଣ।"
+            }},
+            { id: 7, name: "Potato", icon: "🥔", type: "plant", info: {
+                en: "Potatoes are tubers that grow underground as part of the potato plant. They are a staple food in many cultures.",
+                or: "ଆଳୁ ଏକ କନ୍ଦ ଯାହା ଆଳୁ ଗଛର ଅଂଶ ଭାବରେ ଭୂମି ତଳେ ବ grows ୁଥାଏ। ଏହା ଅନେକ ସଂସ୍କୃତିରେ ଏକ ମୁଖ୍ୟ ଖାଦ୍ୟ ଅଟେ।"
+            }},
+            { id: 8, name: "Chicken", icon: "🍗", type: "animal", info: {
+                en: "Chicken meat comes from chickens, which are domesticated birds. It is a common source of protein worldwide.",
+                or: "ଚିକେନ୍ ମାଂସ ମୁରଗୀଠାରୁ ମିଳେ, ଯାହାକି ଘରେଇ ପକ୍ଷୀ। ଏହା ବିଶ୍ୱବ୍ୟାପୀ ଭାବରେ ପ୍ରୋଟିନ୍ର ଏକ ସାଧାରଣ ଉତ୍ସ ଅଟେ।"
+            }},
+            { id: 9, name: "Wheat", icon: "🌾", type: "plant", info: {
+                en: "Wheat is a cereal grain that is ground to make flour. It is used to make bread, chapati, and other foods.",
+                or: "ଗହମ ଏକ ଶସ୍ୟ ଅଟେ ଯାହାକୁ ମଇଦା ତିଆରି କରିବାକୁ ପୀଡ଼ା କରାଯାଏ। ଏହା ପାଉଁରୁଟି, ଚପାତି ଏବଂ ଅନ୍ୟାନ୍ୟ ଖାଦ୍ୟ ତିଆରି କରିବାରେ ବ୍ୟବହୃତ ହୁଏ।"
+            }},
+            { id: 10, name: "Honey", icon: "🍯", type: "animal", info: {
+                en: "Honey is produced by bees from the nectar of flowers. It is a natural sweetener with medicinal properties.",
+                or: "ମହୁ ଫୁଲର ମକରନ୍ଦରୁ ମହୁମାଛି ଦ୍ୱାରା ଉତ୍ପାଦିତ ହୁଏ। ଏହା ଔଷଧୀୟ ଗୁଣଯୁକ୍ତ ଏକ ପ୍ରାକୃତିକ ମିଠା ଅଟେ।"
+            }},
+            { id: 11, name: "Coconut", icon: "🥥", type: "plant", info: {
+                en: "Coconuts grow on coconut palm trees. Every part of the coconut is useful - water, flesh, and shell.",
+                or: "ନାରିଆଳ ନାରିଆଳ ତାଳ ଗଛରେ ବ grows ୁଥାଏ। ନାରିଆଳର ପ୍ରତ୍ୟେକ ଅଂଶ ଉପଯୋଗୀ - ପାଣି, ମାଂସ, ଏବଂ ଖୋଳ।"
+            }},
+            { id: 12, name: "Carrot", icon: "🥕", type: "plant", info: {
+                en: "Carrots are root vegetables that grow underground. They are rich in vitamin A and good for eyesight.",
+                or: "ଗାଜର ମୂଳ ଶାକସବ୍ଜୀ ଯାହା ଭୂମି ତଳେ ବ grows ୁଥାଏ। ସେଗୁଡିକ ଭିଟାମିନ୍ ଏରେ ପରିପୂର୍ଣ୍ଣ ଏବଂ ଦୃଷ୍ଟିଶକ୍ତି ପାଇଁ ଭଲ।"
+            }}
+        ];
+
+        // Game state
+        let currentLanguage = 'en';
+        let score = 0;
+        let correctAnswers = 0;
+        let timeLeft = 180; // 3 minutes in seconds
+        let timerInterval;
+        let draggedItem = null;
+        let completedItems = [];
+        let currentAudio = null;
+
+        // DOM elements
+        const langButtons = document.querySelectorAll('.lang-btn');
+        const foodItemsContainer = document.getElementById('food-items');
+        const plantZone = document.getElementById('plant-zone');
+        const animalZone = document.getElementById('animal-zone');
+        const plantItems = document.getElementById('plant-items');
+        const animalItems = document.getElementById('animal-items');
+        const scoreElement = document.getElementById('score');
+        const timeElement = document.getElementById('time');
+        const progressElement = document.getElementById('progress');
+        const feedbackModal = document.getElementById('feedback-modal');
+        const modalIcon = document.getElementById('modal-icon');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+        const modalAction = document.getElementById('modal-action');
+        const modalClose = document.getElementById('modal-close');
+        const levelComplete = document.getElementById('level-complete');
+        const nextLevelBtn = document.querySelector('.next-level-btn');
+        const playEnglishBtn = document.getElementById('play-english');
+        const playOdiaBtn = document.getElementById('play-odia');
+
+        // Translations
+        const translations = {
+            en: {
+                'nav-home': 'Home',
+                'nav-science': 'Science',
+                'nav-math': 'Math',
+                'nav-teachers': 'Teachers',
+                'nav-about': 'About',
+                'nav-contact': 'Contact',
+                'game-title': 'Food Detective',
+                'game-desc': 'Discover where your food comes from! Drag each food item to its correct source.',
+                'score-text': 'Score: 0/120',
+                'plant-source': 'Plant Sources',
+                'animal-source': 'Animal Sources',
+                'correct-title': 'Correct!',
+                'incorrect-title': 'Try Again!',
+                'play-english': 'Play English',
+                'play-odia': 'Play Odia',
+                'continue-btn': 'Continue',
+                'level-title': 'Level Complete!',
+                'level-text': 'Congratulations! You\'ve identified the food sources correctly.',
+                'next-level': 'Next Level',
+                'footer-desc': 'Making Science and Mathematics education engaging and relevant for Class 6 students in Odisha through localized content and interactive learning.',
+                'quick-links': 'Quick Links',
+                'contact-us': 'Contact Us',
+                'footer-address': 'Department of Education, Bhubaneswar',
+                'copyright': '© 2023 STEM Learn Odisha. All rights reserved.'
+            },
+            or: {
+                'nav-home': 'ମୁଖ୍ୟ ପୃଷ୍ଠା',
+                'nav-science': 'ବିଜ୍ଞାନ',
+                'nav-math': 'ଗଣିତ',
+                'nav-teachers': 'ଶିକ୍ଷକମାନେ',
+                'nav-about': 'ଆମ ବିଷୟରେ',
+                'nav-contact': 'ଯୋଗାଯୋଗ',
+                'game-title': 'ଖାଦ୍ୟ ଡିଟେକ୍ଟିଭ୍',
+                'game-desc': 'ଆପଣଙ୍କର ଖାଦ୍ୟ କୁଆଡ଼ୁ ଆସୁଛି ଆବିଷ୍କାର କରନ୍ତୁ! ପ୍ରତ୍ୟେକ ଖାଦ୍ୟ ଜିନିଷକୁ ଏହାର ସଠିକ୍ ଉତ୍ସକୁ ଟାଣନ୍ତୁ।',
+                'score-text': 'ସ୍କୋର: 0/120',
+                'plant-source': 'ଉଦ୍ଭିଦ ଉତ୍ସ',
+                'animal-source': 'ପ୍ରାଣୀ ଉତ୍ସ',
+                'correct-title': 'ଠିକ୍ ଅଛି!',
+                'incorrect-title': 'ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ!',
+                'play-english': 'ଇଂରାଜୀ ଚଲାନ୍ତୁ',
+                'play-odia': 'ଓଡ଼ିଆ ଚଲାନ୍ତୁ',
+                'continue-btn': 'ଜାରି ରଖନ୍ତୁ',
+                'level-title': 'ସ୍ତର ସମାପ୍ତ!',
+                'level-text': 'ଅଭିନନ୍ଦନ! ଆପଣ ଖାଦ୍ୟ ଉତ୍ସଗୁଡିକୁ ସଠିକ୍ ଭାବରେ ଚିହ୍ନିଛନ୍ତି।',
+                'next-level': 'ପରବର୍ତ୍ତୀ ସ୍ତର',
+                'footer-desc': 'ଓଡ଼ିଶାର ଷଷ୍ଠ ଶ୍ରେଣୀର ଛାତ୍ରଛାତ୍ରୀମାନଙ୍କ ପାଇଁ ସ୍ଥାନୀୟ ବିଷୟବସ୍ତୁ ଏବଂ ଇଣ୍ଟରାକ୍ଟିଭ୍ ଶିକ୍ଷଣ ମାଧ୍ୟମରେ ବିଜ୍ଞାନ ଏବଂ ଗଣିତ ଶିକ୍ଷାକୁ ଆକର୍ଷଣୀୟ ଏବଂ ପ୍ରାସଙ୍ଗିକ କରିବା',
+                'quick-links': 'ଶୀଘ୍ର ଲିଙ୍କ୍',
+                'contact-us': 'ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ',
+                'footer-address': 'ଶିକ୍ଷା ବିଭାଗ, ଭୁବନେଶ୍ୱର',
+                'copyright': '© 2023 STEM ଲର୍ନ ଓଡ଼ିଶା। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।'
+            }
+        };
+
+        // Initialize the game
+        function init() {
+            // Set up language switcher
+            langButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    switchLanguage(lang);
+                });
+            });
+
+            // Create food items
+            createFoodItems();
+
+            // Set up drag and drop
+            setupDragAndDrop();
+
+            // Start the timer
+            startTimer();
+
+            // Set up modal events
+            modalAction.addEventListener('click', closeModal);
+            modalClose.addEventListener('click', closeModal);
+
+            // Set up next level button
+            nextLevelBtn.addEventListener('click', goToNextLevel);
+
+            // Initialize with default language
+            switchLanguage('en');
+        }
+
+        // Create food items
+        function createFoodItems() {
+            foodItems.forEach(item => {
+                const foodElement = document.createElement('div');
+                foodElement.className = 'food-item';
+                foodElement.draggable = true;
+                foodElement.dataset.id = item.id;
+                foodElement.dataset.type = item.type;
+                foodElement.dataset.name = item.name;
+                
+                foodElement.innerHTML = `
+                    <div class="food-icon">${item.icon}</div>
+                    <div class="food-name">${item.name}</div>
+                `;
+                
+                foodItemsContainer.appendChild(foodElement);
+            });
+        }
+
+        // Set up drag and drop
+        function setupDragAndDrop() {
+            const foodElements = document.querySelectorAll('.food-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            // Add drag events to food items
+            foodElements.forEach(item => {
+                item.addEventListener('dragstart', dragStart);
+                item.addEventListener('dragend', dragEnd);
+            });
+            
+            // Add drop events to zones
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', dragOver);
+                zone.addEventListener('dragenter', dragEnter);
+                zone.addEventListener('dragleave', dragLeave);
+                zone.addEventListener('drop', drop);
+            });
+        }
+
+        // Drag and drop functions
+        function dragStart(e) {
+            this.classList.add('dragging');
+            draggedItem = this;
+            e.dataTransfer.setData('text/plain', this.dataset.id);
+        }
+
+        function dragEnd() {
+            this.classList.remove('dragging');
+        }
+
+        function dragOver(e) {
+            e.preventDefault();
+        }
+
+        function dragEnter(e) {
+            e.preventDefault();
+            this.classList.add('highlight');
+        }
+
+        function dragLeave() {
+            this.classList.remove('highlight');
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            this.classList.remove('highlight');
+            
+            const id = e.dataTransfer.getData('text/plain');
+            const item = foodItems.find(food => food.id == id);
+            const zoneType = this.id === 'plant-zone' ? 'plant' : 'animal';
+            
+            // Check if the answer is correct
+            if (item.type === zoneType) {
+                // Correct answer
+                handleCorrectAnswer(item, this);
+            } else {
+                // Incorrect answer
+                handleIncorrectAnswer(item, this);
+            }
+        }
+
+        // Handle correct answer
+        function handleCorrectAnswer(item, zone) {
+            // Add to completed items
+            completedItems.push(item.id);
+            
+            // Update score
+            score += 10;
+            correctAnswers++;
+            updateScore();
+            
+            // Add to zone with animation
+            const clonedItem = draggedItem.cloneNode(true);
+            clonedItem.classList.add('bounce');
+            zone.querySelector('.zone-items').appendChild(clonedItem);
+            
+            // Remove from original container
+            draggedItem.style.visibility = 'hidden';
+            
+            // Show feedback modal
+            showFeedback(true, item);
+            
+            // Check if level is complete
+            if (correctAnswers >= 8) {
+                completeLevel();
+            }
+        }
+
+        // Handle incorrect answer
+        function handleIncorrectAnswer(item, zone) {
+            // Visual feedback
+            zone.classList.add('incorrect');
+            setTimeout(() => {
+                zone.classList.remove('incorrect');
+            }, 1000);
+            
+            // Show feedback modal
+            showFeedback(false, item);
+        }
+
+        // Show feedback modal
+        function showFeedback(isCorrect, item) {
+            const modal = document.getElementById('feedback-modal');
+            const icon = document.getElementById('modal-icon');
+            const title = document.getElementById('modal-title');
+            const text = document.getElementById('modal-text');
+            
+            if (isCorrect) {
+                icon.className = 'modal-icon correct-icon';
+                icon.innerHTML = '<i class="fas fa-check-circle"></i>';
+                title.setAttribute('data-translate', 'correct-title');
+                text.textContent = currentLanguage === 'en' 
+                    ? `Great! ${item.name} comes from ${item.type === 'plant' ? 'plants' : 'animals'}. ${item.info.en}` 
+                    : `ବଢିଆ! ${item.name} ${item.type === 'plant' ? 'ଉଦ୍ଭିଦ' : 'ପ୍ରାଣୀ'}ରୁ ଆସେ। ${item.info.or}`;
+            } else {
+                icon.className = 'modal-icon incorrect-icon';
+                icon.innerHTML = '<i class="fas fa-times-circle"></i>';
+                title.setAttribute('data-translate', 'incorrect-title');
+                text.textContent = currentLanguage === 'en' 
+                    ? `Oops! ${item.name} doesn't come from this source. Try again!` 
+                    : `ଓହୋ! ${item.name} ଏହି ଉତ୍ସରୁ ଆସୁନାହିଁ। ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ!`;
+            }
+            
+            // Update translations
+            switchLanguage(currentLanguage);
+            
+            // Show modal
+            modal.style.display = 'flex';
+            
+            // Set up audio buttons
+            playEnglishBtn.onclick = () => playAudio(item, 'en');
+            playOdiaBtn.onclick = () => playAudio(item, 'or');
+            
+            // Reset audio button states
+            playEnglishBtn.classList.remove('playing');
+            playOdiaBtn.classList.remove('playing');
+        }
+
+        // Play audio function
+        function playAudio(item, lang) {
+            // Stop any currently playing audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+                
+                // Reset button states
+                playEnglishBtn.classList.remove('playing');
+                playOdiaBtn.classList.remove('playing');
+                
+                // If clicking the same button again, just stop the audio
+                if ((lang === 'en' && playEnglishBtn.classList.contains('playing')) ||
+                    (lang === 'or' && playOdiaBtn.classList.contains('playing'))) {
+                    return;
+                }
+            }
+            
+            // Create text to be spoken
+            const text = lang === 'en' 
+                ? `Great! ${item.name} comes from ${item.type === 'plant' ? 'plants' : 'animals'}. ${item.info.en}`
+                : `ବଢିଆ! ${item.name} ${item.type === 'plant' ? 'ଉଦ୍ଭିଦ' : 'ପ୍ରାଣୀ'}ରୁ ଆସେ। ${item.info.or}`;
+            
+            // Use the Web Speech API to speak the text
+            const speech = new SpeechSynthesisUtterance();
+            speech.text = text;
+            speech.volume = 1;
+            speech.rate = 0.9;
+            speech.pitch = 1;
+            
+            // Set language
+            if (lang === 'or') {
+                speech.lang = 'or-IN'; // Odia language code for India
+            } else {
+                speech.lang = 'en-US';
+            }
+            
+            // Highlight the playing button
+            if (lang === 'en') {
+                playEnglishBtn.classList.add('playing');
+                playEnglishBtn.innerHTML = '<i class="fas fa-stop"></i> Stop English';
+            } else {
+                playOdiaBtn.classList.add('playing');
+                playOdiaBtn.innerHTML = '<i class="fas fa-stop"></i> Stop Odia';
+            }
+            
+            // When speech finishes, reset button states
+            speech.onend = function() {
+                playEnglishBtn.classList.remove('playing');
+                playOdiaBtn.classList.remove('playing');
+                playEnglishBtn.innerHTML = '<i class="fas fa-volume-up"></i> Play English';
+                playOdiaBtn.innerHTML = '<i class="fas fa-volume-up"></i> Play Odia';
+                currentAudio = null;
+            };
+            
+            // Start speaking
+            window.speechSynthesis.speak(speech);
+            currentAudio = speech;
+        }
+
+        // Close modal
+        function closeModal() {
+            // Stop any playing audio
+            if (currentAudio) {
+                window.speechSynthesis.cancel();
+                currentAudio = null;
+            }
+            
+            feedbackModal.style.display = 'none';
+        }
+
+        // Update score
+        function updateScore() {
+            const scoreText = currentLanguage === 'en' 
+                ? `Score: ${score}/120` 
+                : `ସ୍କୋର: ${score}/120`;
+                
+            scoreElement.textContent = scoreText;
+            progressElement.style.width = `${(score / 120) * 100}%`;
+        }
+
+        // Start timer
+        function startTimer() {
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Time's up logic would go here
+                }
+            }, 1000);
+        }
+
+        // Update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timeElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Complete level
+        function completeLevel() {
+            clearInterval(timerInterval);
+            levelComplete.style.display = 'block';
+        }
+
+        // Go to next level
+        function goToNextLevel() {
+            // In a real implementation, this would navigate to the next level
+            alert('Congratulations! Moving to the next level...');
+        }
+
+        // Switch language function
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            langButtons.forEach(btn => {
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            // Update all text content
+            Object.keys(translations[lang]).forEach(key => {
+                const elements = document.querySelectorAll(`[data-translate="${key}"]`);
+                elements.forEach(element => {
+                    element.textContent = translations[lang][key];
+                });
+            });
+            
+            // Update score display
+            updateScore();
+            
+            // Add Odia font class for Odia text
+            if (lang === 'or') {
+                document.body.classList.add('odia-text');
+            } else {
+                document.body.classList.remove('odia-text');
+            }
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
